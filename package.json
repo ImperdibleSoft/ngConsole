@@ -1,0 +1,26 @@
+{
+  "name": "ng-console",
+  "version": "1.0.0",
+  "description": "Small directive for angular, to implement a console that's able to execute commands",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ImperdibleSoft/ngConsole.git"
+  },
+  "keywords": [
+    "angularJS",
+    "angular",
+    "javascript",
+    "directive",
+    "console"
+  ],
+  "author": "ImperdibleSoft",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ImperdibleSoft/ngConsole/issues"
+  },
+  "homepage": "https://github.com/ImperdibleSoft/ngConsole#readme"
+}
