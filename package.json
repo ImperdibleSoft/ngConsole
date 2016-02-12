@@ -1,7 +1,7 @@
 {
   "name": "ng-console",
   "version": "1.0.0",
-  "description": "Small directive for angular, to implement a console that's able to execute commands",
+  "description": "Small directive for angular, to implement a console that's able to execute commands.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +22,19 @@
   "bugs": {
     "url": "https://github.com/ImperdibleSoft/ngConsole/issues"
   },
-  "homepage": "https://github.com/ImperdibleSoft/ngConsole#readme"
+  "homepage": "https://github.com/ImperdibleSoft/ngConsole#readme",
+  "dependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.1",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.0",
+    "gulp-minify-css": "^1.2.3",
+    "gulp-rename": "^1.2.2",
+    "gulp-sequence": "^0.4.4",
+    "gulp-uglify": "^1.5.2",
+    "gulp-webserver": "^0.9.1",
+    "yargs": "^3.32.0"
+  }
 }

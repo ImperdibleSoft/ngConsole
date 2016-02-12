@@ -1,0 +1,26 @@
+<p>{{ message }}</p>
+
+<ng-console
+  open="console.open"
+  fixed="console.fixed"
+  fullscreen="console.fullscreen"
+  custom-height="console.customHeight"
+  custom-prefix="console.customPrefix"
+  custom-commands="console.customCommands"
+  ></ng-console>
+  <br />
+
+<h1>Values</h1>
+<ul>
+  <li><label><input type="checkbox" ng-model="console.open" /> <b>open</b></label></li>
+  <li><label><input type="checkbox" ng-model="console.fixed" /> <b>fixed</b></label></li>
+  <li><label><input type="checkbox" ng-model="console.fullscreen" /> <b>fullscreen</b></label></li>
+  <li><b>custom-height</b>: {{ console.customHeight }}</li>
+  <li><b>custom-prefix</b>: <input type="text" ng-model="console.customPrefix" /></li>
+  <li>
+    <b>custom-commands</b>:
+    <ul>
+      <li ng-repeat="command in console.customCommands">{{ command.name }}: {{ command.description }}</li>
+    </ul>
+  </li>
+</ul>
