@@ -11,6 +11,7 @@ you already have a console installed on your Angular website.
 You can use different attributes to customize it:
 * *open*: Open by default (true|false)
 * *fixed*: Embeded in your HTML, or fixed and hidden (true|false)
+  * If it's fixed, you should press º to open it.
 * *fullsize*: When fixed, filling the entire screen (true|false)
 * *custom-height*: Set a custom height, this will be ignored if fullsize is true (number).
 * *custom-prefix*: The prefix displayed (string)
