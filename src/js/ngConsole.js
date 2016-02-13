@@ -90,7 +90,6 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             /* Focus the new line */
             // $(".console .new-line input").focus().select().click();
           }
-          if(dev){ scope.$apply(); }
         };
 
         /* Print a new line */
