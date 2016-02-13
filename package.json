@@ -1,6 +1,6 @@
 {
   "name": "ng-console",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "Small directive for angular, to implement a console that's able to execute commands.",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
     "url": "https://github.com/ImperdibleSoft/ngConsole/issues"
   },
   "homepage": "https://github.com/ImperdibleSoft/ngConsole#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.1",
