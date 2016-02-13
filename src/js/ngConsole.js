@@ -1,8 +1,9 @@
+var dev = false;
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
       transclude: true,
-      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;min-height:300px;padding:10px;top:0;background-color:rgba(0,0,0,.8);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;list-style:none;text-align:left}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .new-line .prefix,.console .new-line input[type=text],.console .new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;text-align:left;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .new-line .prefix{width:auto}.console .new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': open, \'fixed\': fixed, \'fullscreen\': fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="new-line"><span class="prefix">{{ customPrefix }}</span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" ng-if="!fixed || (fixed && open)" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
+      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;min-height:300px;padding:10px;top:0;background-color:rgba(0,0,0,.8);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;list-style:none;text-align:left}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .new-line .prefix,.console .new-line input[type=text],.console .new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;text-align:left;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .new-line{position: relative;display: block;float: left;width: 100%;}.console .new-line .prefix{width:auto}.console .new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': open, \'fixed\': fixed, \'fullscreen\': fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="new-line"><span class="prefix">{{ customPrefix }}</span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
       scope:{
         open: "=open",                         // Open by default
         fixed: "=fixed",                       // Fixed and hidden
@@ -88,8 +89,19 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             scope.scrollBottom();
 
             /* Focus the new line */
-            // $(".console .new-line input").focus().select().click();
+            if(document.querySelector(".console .new-line input")){
+              document.querySelector(".console .new-line input").focus();
+            }
           }
+          else{
+
+            /* Remove the focus */
+            if(document.querySelector(".console .new-line input")){
+              document.querySelector(".console .new-line input").blur();
+              scope.cleanLn();
+            }
+          }
+          scope.apply();
         };
 
         /* Print a new line */
@@ -102,11 +114,28 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           document.querySelector(".console .command-list").innerHTML = prev + "<p>" + string + "</p>";
         }
 
+        /* Clean the new line */
+        scope.cleanLn = function(){
+          scope.command = "";
+        };
+
+        /* Scroll to new Line position */
+        scope.scrollBottom = function(){
+          var elem = document.querySelector(".console");
+          var newTop = document.querySelector(".command-list").clientHeight + document.querySelector(".new-line").clientHeight;
+          elem.scrollTop = newTop;
+        }
+
+        /* scope.$apply() */
+        scope.apply = function(){
+          if(!dev || dev === true){ scope.$apply(); }
+        };
+
         /* Send the command */
         scope.executeCommand = function(){
 
           /* Read the command */
-          var command = scope.console.command.$modelValue;
+          var command = scope.console.command.$modelValue ? scope.console.command.$modelValue : "";
 
           /* Print command executed */
           scope.printLn(scope.customPrefix +" <span style=\'color: white;\'>"+ command +"</span>");
@@ -125,21 +154,24 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
           /* If no available command */
           if(!existing){
-            scope.printLn("\'<b><span style=\'color: white;\'>" + command + "</span></b>\': command not found. Use \'help\' for more info.");
+
+            /* Print empty line */
+            if(command == "" || !command){
+              scope.printLn("");
+            }
+
+            /* Show error message */
+            else{
+              scope.printLn("\'<b><span style=\'color: white;\'>" + command + "</span></b>\': command not found. Use \'help\' for more info.");
+            }
           }
 
           /* Clean new line */
-          scope.console.command.$modelValue = "";
-          document.querySelector(".console .new-line input").value = "";
+          scope.cleanLn();
 
           /* Scrolls to new line */
           scope.scrollBottom();
         };
-
-        /* Scroll to new Line position */
-        scope.scrollBottom = function(){
-          // $(".console").scrollTop( $(".command-list").height() + $(".new-line").height() );
-        }
 
         /* Command builder */
         function Command(name, description, callback){
@@ -158,15 +190,15 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           }
 
           /* Remove already written */
-          else if(scope.open && (e.keyCode == 27 || e.key== "Escape")){
+          else if(e.keyCode == 27 || e.key== "Escape"){
             e.preventDefault();
-            if(document.querySelector(".console .new-line input").value != ""){
-              scope.console.command.$modelValue = "";
-              document.querySelector(".console .new-line input").value = "";
+            if(scope.command != ""){
+              scope.cleanLn();
             }
-            else{
-              scope.open = false;
+            else if(scope.fixed == true && scope.open == true){
+              scope.toggle();
             }
+            scope.apply();
           }
         });
 
