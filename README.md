@@ -1,5 +1,5 @@
 # ngConsole
-Small directive for angular, to implement a console that's able to execute commands
+Small directive for angular, to implement a console that's able to execute commands. You can see a demo <a href="http://imperdiblesoft.github.io/ngConsole/demo/" target="_blank">here</a>.
 
 # Install
 To install ngConsole on your project, just type <code>npm install ng-console</code>
