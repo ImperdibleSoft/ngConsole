@@ -151,8 +151,16 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             /* The first word is the command name */
             if((command.indexOf(" ") >= 0 && command.substr(0, command.indexOf(" ")) === elem.name) || (command.indexOf(" ") < 0 && command === elem.name)){
               existing = true;
-              var params = command.substr((command.indexOf(" ") + 1));
-              elem.exec(params);
+
+              /* If there is a space, there should be params */
+              if(command.indexOf(" ") >= 0){
+                var params = command.substr((command.indexOf(" ") + 1));
+                elem.exec(scope.printLn, params);
+              }
+              else{
+                elem.exec(scope.printLn);
+              }
+
               break;
             }
           }
