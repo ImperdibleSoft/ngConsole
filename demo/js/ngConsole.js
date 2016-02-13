@@ -34,39 +34,115 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
           /* Default commands */
           scope.commands = {};
-          scope.commands.help = new Command(
-            "help",
-            "Show all available commands.",
-            function(){
-              var temp = "<p>Available commands: ";
-              temp += "<ul>";
-              for(var x in scope.commands){
-                var elem = scope.commands[x];
-                temp += "<li>"+ elem.description +"</li>";
+          scope.commands.browser = new Command(
+            "browser",
+            "Some actions related to the browser.",
+            [
+              {
+                name: "info",
+                description: "Show the the version of the browser you are using."
               }
-              temp += "</ul>";
-              scope.printLn(temp);
-              scope.scrollBottom();
+            ],
+            function(printLn, params){
+              if(params){
+                if(params.info){
+                  printLn(navigator.userAgent);
+                }
+              }
             }
+
           );
           scope.commands.clear = new Command(
             "clear",
             "Clean command history.",
-            function(){
+            false,
+            function(printLn, params){
               document.querySelector(".command-list").innerHTML = "";
             }
           );
           scope.commands.cls = new Command(
             "cls",
             "Clean command history.",
+            false,
             scope.commands.clear.exec
+          );
+          scope.commands.console = new Command(
+            "console",
+            "Some actions related to ngConsole",
+            [
+              {
+                name: "bg",
+                description: "Change the ngConsole's background."
+              },
+              {
+                name: "info",
+                description: "Display info about ngConsole."
+              },
+              {
+                name: "reset",
+                description: "Restore ngConsole's state to its initial state."
+              }
+            ],
+            function(printLn, params){
+              if(params){
+
+                /* Change the ngConsole's background */
+                if(params.bg){
+                  document.querySelector(".console").style.background = params.bg;
+                }
+
+                /* Display info about ngConsole */
+                if(params.info){
+                  printLn("<b><span style='color: white'>ngConsole v1.2.0</span></b>");
+                  printLn("<b><span style='color: white'>Author</span></b>: ImperdibleSoft (<a href='http://www.imperdiblesoft.com' target='_blank'>http://www.imperdiblesoft.com</a>)");
+                }
+
+                /* Restore ngConsole's state to its initial state */
+                if(params.reset){
+                  document.querySelector(".console").style.background = "rgba(0, 0, 0, 0.8)";
+                }
+              }
+            }
           );
           scope.commands.exit = new Command(
             "exit",
             "Close the console.",
-            function(){
+            false,
+            function(printLn, params){
               scope.commands.clear.exec();
               scope.toggle();
+            }
+          );
+          scope.commands.help = new Command(
+            "help",
+            "Show all available commands.",
+            false,
+            function(printLn, params){
+              var temp = "<p>Available commands: ";
+              temp += "<ul>";
+
+              /* Loop throught all declared commands */
+              for(var x in scope.commands){
+                var elem = scope.commands[x];
+                temp += "<li>";
+                temp += elem.description;
+
+                /* Loop throught all declared params */
+                if(elem.params){
+                  temp += "<ul>";
+                  for(var y in elem.params){
+                    var param = elem.params[y];
+                    temp += "<li>";
+                    temp += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: white'>--"+ param.name +"</span>: "+ param.description;
+                    temp += "</li>";
+                  }
+                  temp += "</ul>";
+                }
+
+                temp += "</li>";
+              }
+              temp += "</ul>";
+              printLn(temp);
             }
           );
 
@@ -149,14 +225,37 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             var elem = scope.commands[x];
 
             /* The first word is the command name */
-            if((command.indexOf(" ") >= 0 && command.substr(0, command.indexOf(" ")) === elem.name) || (command.indexOf(" ") < 0 && command === elem.name)){
+            if((command.indexOf(" --") >= 0 && command.substr(0, command.indexOf(" --")) === elem.name) || (command.indexOf(" --") < 0 && command === elem.name)){
               existing = true;
 
-              /* If there is a space, there should be params */
-              if(command.indexOf(" ") >= 0){
-                var params = command.substr((command.indexOf(" ") + 1));
-                elem.exec(scope.printLn, params);
+              /* There are params */
+              if(command.indexOf(" --") >= 0){
+                var params = command.split(" --");
+                var temp = {}
+
+                /* Loop all written params */
+                for(var y in params){
+
+                  /* Skip first element */
+                  if(y != 0){
+                    var param = params[y].split("=");
+                    var p = {
+                      name: param[0],
+                      value: (param[1] && param[1] != "") ? param[1].replaceAll("\"", "") : true
+                    };
+
+                    /* Loop all declared params */
+                    for(var z in elem.params){
+                      if(p.name === elem.params[z].name){
+                        temp[p.name] = p.value;
+                      }
+                    }
+                  }
+                }
+                elem.exec(scope.printLn, temp);
               }
+
+              /* There are no params */
               else{
                 elem.exec(scope.printLn);
               }
@@ -184,10 +283,17 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         };
 
         /* Command builder */
-        function Command(name, description, callback){
+        function Command(name, description, params, callback){
           this.name = name;
           this.description = "&nbsp;&nbsp;<span style=\'color: white;\'>"+ name +"</span>: "+ description;
+          this.params = params;
           this.exec = callback;
+        };
+
+        /* Relplace all elements */
+        String.prototype.replaceAll = function(search, replacement) {
+          var target = this;
+          return target.replace(new RegExp(search, 'g'), replacement);
         };
 
         /* Detect key press */
