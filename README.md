@@ -24,8 +24,10 @@ Custom commands should have a particular properties. Each command must have:
 * action: The function that's gonna be executed. 
 
 # Params
-If you want to use params, you have to declare the 'action' function like this <code>function(params){ whatever(); }</code>
-It's very important to use this <code>params</code>, because this is the way ngConsole can use params.
+If you want to use params, you have to declare the 'action' function like this <code>function(printLn, params){ whatever(); }</code>
+It's very important to use this <code>printLn</code> and <code>params</code>.
+* *printLn*: A function that allows you to print on the console.
+* *params*: Parameters introduced by user (if detected).
 
 In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say something</code>, it's going to prompt you "something".
 
