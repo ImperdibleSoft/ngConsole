@@ -2,7 +2,6 @@
 
 var gulp = require('gulp');
 var clean = require('gulp-clean');
-var compass = require('gulp-compass');
 var concat = require('gulp-concat');
 var del = require('del');
 var minifyCSS = require('gulp-minify-css');
@@ -14,7 +13,7 @@ var gulpif = require('gulp-if');
 var argv = require('yargs').argv;
 
 var prodEnv   = './demo';
-var buildEnv   = './build';
+var buildEnv  = './build';
 var devEnv    = './src';
 var htmlGlob  = devEnv + '/**/*.html';
 var sassGlob  = devEnv + '/**/*.scss';
@@ -30,7 +29,7 @@ gulp.task('production', gulpSequence('clean', 'parse', 'build'));
 /* CLEANING */
 // Clean production directory
 gulp.task('clean', function(){
-  return gulp.src([prodEnv + '/*', buildEnv + '/*', '!' + prodEnv + '/index.html'], {read: false})
+  return gulp.src([prodEnv + '/*', '!' + prodEnv + '/index.html'], {read: false})
   .pipe(clean());
 });
 
@@ -48,16 +47,6 @@ gulp.task('html', function() {
    .pipe(gulp.dest(prodEnv + '/templates'));
 });
 
-// Parse sass files and save them into ./dist/css
-gulp.task('sass', function () {
-  return gulp.src( devEnv + "/css/")
-    .pipe(compass({
-      css: prodEnv + '/css',
-      sass: devEnv + '/css',
-      comments: true
-    }));
-});
-
 // Parse js files and save them into ./dist/js
 gulp.task('js', function(){
   return gulp.src(jsGlob, {base: 'src/'})
@@ -72,28 +61,7 @@ gulp.task('js', function(){
 });
 
 // Parse all ./src files into ./dist folder
-gulp.task('parse', gulpSequence(['html', 'sass', 'js']));
-
-/* BUILDING */
-// Concat all CSS, Libraries and JS files, and minify them if neccesary
-gulp.task('combineCSS', function(){
-
-  /* If combine parameter is sent */
-  if(argv.combine || argv.minify){
-
-    // Combine CSS
-    return gulp.src(prodEnv + '/css/*.css')
-      .pipe(clean())
-      .pipe(gulpif(argv.minify, minifyCSS()))
-      .pipe(concat('console.css'))
-      .pipe(gulp.dest(prodEnv + '/css'));
-  }
-
-  /* If combine parameter is not sent */
-  else{
-    return ;
-  }
-});
+gulp.task('parse', gulpSequence(['html', 'js']));
 
 // Concat all CSS, Libraries and JS files, and minify them if neccesary
 gulp.task('combineJS', function(){
@@ -119,12 +87,11 @@ gulp.task('combineJS', function(){
 });
 
 // Make the 3 combinations
-gulp.task('build', gulpSequence(['combineCSS', 'combineJS']));
+gulp.task('build', gulpSequence(['combineJS']));
 
 /* SERVING */
 // Watch for changes into ./src and make a new build
 gulp.task('watcher', function(){
-  gulp.watch([devEnv + '/**/*.scss'], ['sass']);
   gulp.watch([devEnv + '/**/*.js'], ['js']);
   gulp.watch([devEnv + '/**/*.html'], ['html']);
 });

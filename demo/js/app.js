@@ -1,2 +1,32 @@
-var app=angular.module("app",["ngRoute"]);app.config(["$routeProvider",function(e){e.when("/",{templateUrl:"templates/main.html",controller:"mainController"}).otherwise({redirectTo:"/"})}]),app.controller("mainController",["$scope",function(e){e.message="Please, press 'º' key",e.console={open:!1,fixed:!1,fullscreen:!1,customHeight:350,customPrefix:"Custom Prefix",customCommands:[{name:"test",description:"This is a test",action:function(){console.log("Testing custom command")}}]}}]);
-var dev=!0;app.directive("ngConsole",["$rootScope",function(e){return{restrict:"AE",transclude:!0,templateUrl:"templates/console.html",scope:{open:"=open",fixed:"=fixed",fullscreen:"=fullscreen",customHeight:"=customHeight",customPrefix:"=customPrefix",customCommands:"=customCommands"},link:function(e,o,n){function t(e,o,n){this.name=e,this.description="&nbsp;&nbsp;<span style='color: white;'>"+e+"</span>: "+o,this.exec=n}e.init=function(){if(e.customHeight&&!e.fullscreen&&(document.querySelector(".console").style.height=e.customHeight,e.fixed&&(document.querySelector(".console").style.top=-1*e.customHeight)),e.customPrefix||(e.customPrefix="ngConsole"),e.customPrefix+=">",e.commands={},e.commands.help=new t("help","Show all available commands.",function(){var o="<p>Available commands: ";o+="<ul>";for(var n in e.commands){var t=e.commands[n];o+="<li>"+t.description+"</li>"}o+="</ul>",e.printLn(o),e.scrollBottom()}),e.commands.clear=new t("clear","Clean command history.",function(){document.querySelector(".command-list").innerHTML=""}),e.commands.cls=new t("cls","Clean command history.",e.commands.clear.exec),e.commands.exit=new t("exit","Close the console.",function(){e.commands.clear.exec(),e.toggle()}),e.customCommands&&e.customCommands.length>=1)for(var o in e.customCommands){var n=e.customCommands[o];e.commands[n.name]=new t(n.name,n.description,n.action)}},e.toggle=function(){e.open=!e.open,e.open===!0&&e.scrollBottom(),dev&&e.$apply()},e.printLn=function(e){var o=document.querySelector(".console .command-list").innerHTML;document.querySelector(".console .command-list").innerHTML=o+"<p>"+e+"</p>"},e.executeCommand=function(){var o=e.console.command.$modelValue;e.printLn(e.customPrefix+" <span style='color: white;'>"+o+"</span>");var n=!1;for(var t in e.commands){var c=e.commands[t];if(o===c.name){n=!0,c.exec();break}}n||e.printLn("'<b><span style='color: white;'>"+o+"</span></b>': command not found. Use 'help' for more info."),e.console.command.$modelValue="",document.querySelector(".console .new-line input").value="",e.scrollBottom()},e.scrollBottom=function(){},document.addEventListener("keyup",function(o){220==o.keyCode||"º"==o.key?(o.preventDefault(),e.toggle()):!e.open||27!=o.keyCode&&"Escape"!=o.key||(o.preventDefault(),""!=document.querySelector(".console .new-line input").value?(e.console.command.$modelValue="",document.querySelector(".console .new-line input").value=""):e.open=!1)}),e.init()}}}]);
+var app = angular.module('app', ['ngRoute']);
+
+app.config(['$routeProvider', function($routeProvider){
+  $routeProvider
+    .when('/', {
+      templateUrl: 'templates/main.html',
+      controller: 'mainController'
+    })
+    .otherwise({
+      redirectTo: '/'
+    });
+}]);
+
+app.controller('mainController', ['$scope', function($scope){
+
+  $scope.message = "Please, press 'º' key";
+
+  $scope.console = {
+    open: false,
+    fixed: false,
+    fullscreen: false,
+    customHeight: 350,
+    customPrefix: "Custom Prefix",
+    customCommands: [
+      {
+        name: 'test',
+        description: 'This is a test',
+        action: function(){ console.log('Testing custom command'); }
+      }
+    ]
+  };
+}]);
