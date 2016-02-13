@@ -1,4 +1,5 @@
 var dev = false;
+var version = "1.2.1";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -93,13 +94,16 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
                 /* Display info about ngConsole */
                 if(params.info){
-                  printLn("<b><span style='color: white'>ngConsole v1.2.0</span></b>");
+                  printLn("<b><span style='color: white'>ngConsole v"+ version +"</span></b>");
                   printLn("<b><span style='color: white'>Author</span></b>: ImperdibleSoft (<a href='http://www.imperdiblesoft.com' target='_blank'>http://www.imperdiblesoft.com</a>)");
+                  printLn("<br />");
                 }
 
                 /* Restore ngConsole's state to its initial state */
                 if(params.reset){
                   document.querySelector(".console").style.background = "rgba(0, 0, 0, 0.8)";
+                  scope.executeCommand("clear");
+                  scope.executeCommand("console --info", true);
                 }
               }
             }
@@ -153,6 +157,8 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
               scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
             }
           }
+
+          scope.executeCommand("console --info", true);
         };
 
         /* Open/close the console */
@@ -208,16 +214,23 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         };
 
         /* Send the command */
-        scope.executeCommand = function(){
+        scope.executeCommand = function(manual, clean){
 
           /* Read the command */
-          var command = scope.console.command.$modelValue ? scope.console.command.$modelValue : "";
+          if(manual && manual != ""){
+            var command = manual;
+          }
+          else{
+            var command = scope.console.command.$modelValue ? scope.console.command.$modelValue : "";
+          }
 
           /* Clean new line */
           scope.cleanLn();
 
           /* Print command executed */
-          scope.printLn(scope.customPrefix +" <span style=\'color: white;\'>"+ command +"</span>");
+          if(!clean){
+            scope.printLn(scope.customPrefix +" <span style=\'color: white;\'>"+ command +"</span>");
+          }
 
           /* Loop all available commands */
           var existing = false;
