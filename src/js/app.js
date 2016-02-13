@@ -25,6 +25,7 @@ app.controller('mainController', ['$scope', function($scope){
       {
         name: 'test',
         description: 'This is a test',
+        params: false,
         action: function(printLn, params){
           console.log('Testing custom command');
         }
@@ -32,9 +33,24 @@ app.controller('mainController', ['$scope', function($scope){
       {
         name: 'say',
         description: 'This command will prompt the specified text',
+        params: [
+          {
+            name: "text",
+            description: "The text that is going to be displayed."
+          },
+          {
+            name: "popup",
+            description: "If it is true, the message will be displayed on a popup."
+          }
+        ],
         action: function(printLn, params){
           if(params){
-            printLn(params);
+            if(params.popup){
+              alert(params.text);
+            }
+            else{
+              printLn(params.text);
+            }
           }
           else{
             printLn("<span style='color: white;'>Error</span>: You need to specify (at least) one param.");
