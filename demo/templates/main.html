@@ -6,12 +6,15 @@
   custom-prefix="console.customPrefix"
   custom-commands="console.customCommands"
   ></ng-console>
-  <br />
-
 <h1>Values</h1>
 <ul>
   <li><label><input type="checkbox" ng-model="console.open" /> <b>open</b></label></li>
-  <li><label><input type="checkbox" ng-model="console.fixed" /> <b>fixed</b></label></li>
+  <li>
+    <label><input type="checkbox" ng-model="console.fixed" /> <b>fixed</b></label>
+    <ul ng-if="console.fixed != false">
+      <li>To open the console, please press º key</li>
+    </ul>
+  </li>
   <li><label><input type="checkbox" ng-model="console.fullscreen" /> <b>fullscreen</b></label></li>
   <li><b>custom-height</b>: {{ console.customHeight }}</li>
   <li><b>custom-prefix</b>: <input type="text" ng-model="console.customPrefix" /></li>
