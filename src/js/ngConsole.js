@@ -150,7 +150,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           if(scope.customCommands){
             for(var x in scope.customCommands){
               var action = scope.customCommands[x];
-              scope.commands[action.name] = new Command(action.name, action.description, action.action);
+              scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
             }
           }
         };
