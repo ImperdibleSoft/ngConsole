@@ -137,6 +137,9 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           /* Read the command */
           var command = scope.console.command.$modelValue ? scope.console.command.$modelValue : "";
 
+          /* Clean new line */
+          scope.cleanLn();
+
           /* Print command executed */
           scope.printLn(scope.customPrefix +" <span style=\'color: white;\'>"+ command +"</span>");
 
@@ -145,9 +148,11 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           for(var x in scope.commands){
             var elem = scope.commands[x];
 
-            if(command === elem.name){
+            /* The first word is the command name */
+            if((command.indexOf(" ") >= 0 && command.substr(0, command.indexOf(" ")) === elem.name) || (command.indexOf(" ") < 0 && command === elem.name)){
               existing = true;
-              elem.exec();
+              var params = command.substr((command.indexOf(" ") + 1));
+              elem.exec(params);
               break;
             }
           }
@@ -165,9 +170,6 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
               scope.printLn("\'<b><span style=\'color: white;\'>" + command + "</span></b>\': command not found. Use \'help\' for more info.");
             }
           }
-
-          /* Clean new line */
-          scope.cleanLn();
 
           /* Scrolls to new line */
           scope.scrollBottom();
