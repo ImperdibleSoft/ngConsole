@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/ImperdibleSoft/ngConsole#readme",
   "dependencies": {
+  },
+  "devDependencies": {
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.1",
