@@ -1,4 +1,4 @@
-var dev = true;
+var dev = false;
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
