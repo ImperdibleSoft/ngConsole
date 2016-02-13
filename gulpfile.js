@@ -14,7 +14,7 @@ var gulpif = require('gulp-if');
 var argv = require('yargs').argv;
 
 var prodEnv   = './demo';
-var distEnv   = './dist';
+var buildEnv   = './build';
 var devEnv    = './src';
 var htmlGlob  = devEnv + '/**/*.html';
 var sassGlob  = devEnv + '/**/*.scss';
@@ -30,7 +30,7 @@ gulp.task('production', gulpSequence('clean', 'parse', 'build'));
 /* CLEANING */
 // Clean production directory
 gulp.task('clean', function(){
-  return gulp.src([prodEnv + '/*', distEnv + '/*', '!' + prodEnv + '/index.html'], {read: false})
+  return gulp.src([prodEnv + '/*', buildEnv + '/*', '!' + prodEnv + '/index.html'], {read: false})
   .pipe(clean());
 });
 
