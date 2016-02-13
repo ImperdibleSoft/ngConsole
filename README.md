@@ -21,4 +21,12 @@ You can use different attributes to customize it:
 Custom commands should have a particular properties. Each command must have:
 * name: The keyword used to execute the command (string)
 * description: A short description to show with <code>help</code>
-* action: The function that's gonna be executed
+* action: The function that's gonna be executed. 
+
+# Params
+If you wanna use params, you have to declare the 'action' function like this <code>function(params){ whatever(); }</code>
+It's very important to use this param. This is the way ngConsole can use params.
+
+On our live example, our custom command <code>say</code> accepts params, so if you execute <code>say something</code>, it's going to prompt you "something".
+
+Of course, you can play with your params like you want, inside the "action" function
