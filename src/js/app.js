@@ -25,15 +25,20 @@ app.controller('mainController', ['$scope', function($scope){
       {
         name: 'test',
         description: 'This is a test',
-        action: function(params){
+        action: function(printLn, params){
           console.log('Testing custom command');
         }
       },
       {
         name: 'say',
         description: 'This command will prompt the specified text',
-        action: function(params){
-          alert(params);
+        action: function(printLn, params){
+          if(params){
+            alert(params);
+          }
+          else{
+            printLn("<span style='color: white;'>Error</span>: You need to specify (at least) one param.");
+          }
         }
       }
     ]
