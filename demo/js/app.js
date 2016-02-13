@@ -34,7 +34,7 @@ app.controller('mainController', ['$scope', function($scope){
         description: 'This command will prompt the specified text',
         action: function(printLn, params){
           if(params){
-            alert(params);
+            printLn(params);
           }
           else{
             printLn("<span style='color: white;'>Error</span>: You need to specify (at least) one param.");
