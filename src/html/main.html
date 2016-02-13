@@ -13,7 +13,7 @@
   <li><label><input type="checkbox" ng-model="console.open" /> <b>open</b></label></li>
   <li>
     <label><input type="checkbox" ng-model="console.fixed" /> <b>fixed</b></label>
-    <ul ng-if="console.fixed === true">
+    <ul ng-if="console.fixed != false">
       <li>To open the console, please press º key</li>
     </ul>
   </li>
