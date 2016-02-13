@@ -25,7 +25,16 @@ app.controller('mainController', ['$scope', function($scope){
       {
         name: 'test',
         description: 'This is a test',
-        action: function(){ console.log('Testing custom command'); }
+        action: function(params){
+          console.log('Testing custom command');
+        }
+      },
+      {
+        name: 'say',
+        description: 'This command will prompt the specified text',
+        action: function(params){
+          alert(params);
+        }
       }
     ]
   };
