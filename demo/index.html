@@ -5,11 +5,22 @@
 
   <title>ngConsole</title>
   <meta name="description" content="Small directive for angular, to implement a console that's able to execute commands" />
+
+  <!-- Material CSS -->
+  <link href="http://www.material-css.com/material-css.css" type="text/css" rel="stylesheet" />
+  <link href="http://www.material-css.com/color-themes/imperdiblesoft-theme.css" type="text/css" rel="stylesheet" />
 </head>
-<body>
+<body mc-layout="no-nav">
+
+  <!-- Header -->
+  <header class="mc-header">
+    <div class="mc-header-line">
+      <h1 class="mc-title">ngConsole</h1>
+    </div>
+  </header>
 
   <!-- Content -->
-  <div ng-view=""></div>
+  <div class="mc-content mc-untabbed" ng-view=""></div>
 
   <!-- Vendors JS-->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>

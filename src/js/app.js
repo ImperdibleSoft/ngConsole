@@ -19,7 +19,7 @@ app.controller('mainController', ['$scope', function($scope){
     open: false,
     fixed: false,
     fullscreen: false,
-    customHeight: 350,
+    customHeight: 450,
     customPrefix: "Custom Prefix",
     customCommands: [
       {
