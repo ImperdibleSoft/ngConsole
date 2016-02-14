@@ -27,11 +27,11 @@ Custom commands should have a particular properties. Each command must have:
 # Params
 When declaring your action function, as described below, you have to use these params:
 * *printLn*: A function that allows you to print on the console.
-* *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}).
+* *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).
 
 In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this:
-<p><code>function(printLn, params){</code></p>
-<p><code>&nbsp;&nbsp;if(params && params.text){</code></p>
-<p><code>&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text);</code></p>
-<p><code>&nbsp;&nbsp;}</code></p>
-<p><code>}</code></p>
+function(printLn, params){
+&nbsp;&nbsp;if(params && params.text){
+&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text);
+&nbsp;&nbsp;}
+}
