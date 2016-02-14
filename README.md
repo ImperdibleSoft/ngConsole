@@ -9,18 +9,18 @@ Simply write <code>&lt;ng-console&gt;&lt;/ng-console&gt;</code> on your code, an
 you already have a console installed on your Angular website.
 
 You can use different attributes to customize it:
-* *open*: Open by default (true|false)
-* *fixed*: Embeded in your HTML, or fixed and hidden (true|false)
+* *open*: Open by default (<code>boolean</code>)
+* *fixed*: Embeded in your HTML, or fixed and hidden (<code>boolean</code>)
   * If it's fixed, you should press º to open it.
-* *fullsize*: When fixed, filling the entire screen (true|false)
-* *custom-height*: Set a custom height, this will be ignored if fullsize is true (number).
-* *custom-prefix*: The prefix displayed (string)
-* *custom-commands*: An array with commands that you wanna add to the console. (true|false)
+* *fullsize*: When fixed, filling the entire screen (<code>boolean</code>)
+* *custom-height*: Set a custom height, this will be ignored if fullsize is true (<code>number</code>).
+* *custom-prefix*: The prefix displayed (<code>string</code>)
+* *custom-commands*: An array with commands that you wanna add to the console. (<code>boolean</code>)
 
 # Custom commands
 Custom commands should have a particular properties. Each command must have:
-* name: The keyword used to execute the command (<code>"string"</code>)
-* description: A short description to show with <code>help</code> command (<code>"string"</code>)
+* name: The keyword used to execute the command (<code>string</code>)
+* description: A short description to show with <code>help</code> command (<code>string</code>)
 * params: A list of parameters that can be used with this command (Object: <code>{name: "string", description: "string"}</code>)
 * action: The function that's gonna be executed (<code>function(printLn, params){ whatever(); }</code>). 
 
