@@ -29,9 +29,9 @@ When declaring your action function, as described below, you have to use these p
 * *printLn*: A function that allows you to print on the console.
 * *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).
 
-In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this:
-function(printLn, params){
-&nbsp;&nbsp;if(params && params.text){
-&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text);
-&nbsp;&nbsp;}
-}
+In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
+function(printLn, params){ <br />
+&nbsp;&nbsp;if(params && params.text){ <br />
+&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text); <br />
+&nbsp;&nbsp;} <br />
+} <br />
