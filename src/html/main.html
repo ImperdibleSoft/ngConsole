@@ -1,5 +1,5 @@
-<div class="mc-layout" mc-layout="1">
-  <div class="mc-layout" mc-layout-size="biggest">
+<div class="mc-layout" mc-layout="2">
+  <div class="mc-layout" mc-layout-size="normal">
 
     <!-- Live Demo -->
     <div class="mc-card">
@@ -12,49 +12,49 @@
       </div>
     </div>
   </div>
-</div>
 
-<div>
+  <div class="mc-layout" mc-layout-size="normal">
 
-  <!-- View Code -->
-  <div class="mc-card">
-    <div class="mc-header">
-      <h1 class="mc-title">View's code</h1>
+    <!-- View Code -->
+    <div class="mc-card">
+      <div class="mc-header">
+        <h1 class="mc-title">View's code</h1>
+      </div>
+      <div class="mc-content">
+        <code class="mc-code">
+          &lt;ng-console options="options"&gt;&lt;/ng-console&gt;
+        </code>
+      </div>
     </div>
-    <div class="mc-content">
-      <code class="mc-code">
-        &lt;ng-console options="options"&gt;&lt;/ng-console&gt;
-      </code>
-    </div>
-  </div>
 
-  <!-- Controller code -->
-  <div class="mc-card">
-    <div class="mc-header">
-      <h1 class="mc-title">Controller's code</h1>
+    <!-- Controller code -->
+    <div class="mc-card">
+      <div class="mc-header">
+        <h1 class="mc-title">Controller's code</h1>
+      </div>
+      <div class="mc-content">
+        <code class="mc-code">
+          $scope.options = { <br />
+            &nbsp;&nbsp;open: {{ options.open }} <br />
+            &nbsp;&nbsp;fixed: {{ options.fixed }} <br />
+            &nbsp;&nbsp;fullscreen: {{ options.fullscreen }} <br />
+            &nbsp;&nbsp;customHeight: {{ options.customHeight }} <br />
+            &nbsp;&nbsp;customPrefix: "{{ options.customPrefix }}" <br />
+            &nbsp;&nbsp;customCommands: {{ options.customCommands }} <br />
+          };
+        </code>
+      </div>
     </div>
-    <div class="mc-content">
-      <code class="mc-code">
-        $scope.options = { <br />
-          &nbsp;&nbsp;open: {{ options.open }} <br />
-          &nbsp;&nbsp;fixed: {{ options.fixed }} <br />
-          &nbsp;&nbsp;fullscreen: {{ options.fullscreen }} <br />
-          &nbsp;&nbsp;customHeight: {{ options.customHeight }} <br />
-          &nbsp;&nbsp;customPrefix: "{{ options.customPrefix }}" <br />
-          &nbsp;&nbsp;customCommands: {{ options.customCommands }} <br />
-        };
-      </code>
-    </div>
-  </div>
 
-  <!-- Links -->
-  <div class="mc-card">
-    <div class="mc-header">
-      <h1 class="mc-title">Links</h1>
-    </div>
-    <div class="mc-content">
-      <a class="mc-button mc-button-comb mc-button-raised mc-clickable" mc-action="github" target="_blank" ng-href="https://github.com/ImperdibleSoft/ngConsole" href="https://github.com/ImperdibleSoft/ngConsole">Contribute</a>
-      <a class="mc-button mc-button-comb mc-button-raised mc-clickable" mc-action="imperdiblesoft" target="_blank" ng-href="http://www.imperdiblesoft.com/" href="http://www.imperdiblesoft.com/">ImperdibleSoft</a>
+    <!-- Links -->
+    <div class="mc-card">
+      <div class="mc-header">
+        <h1 class="mc-title">Links</h1>
+      </div>
+      <div class="mc-content">
+        <a class="mc-button mc-button-comb mc-button-raised mc-clickable" mc-action="github" target="_blank" ng-href="https://github.com/ImperdibleSoft/ngConsole" href="https://github.com/ImperdibleSoft/ngConsole">Contribute</a>
+        <a class="mc-button mc-button-comb mc-button-raised mc-clickable" mc-action="imperdiblesoft" target="_blank" ng-href="http://www.imperdiblesoft.com/" href="http://www.imperdiblesoft.com/">ImperdibleSoft</a>
+      </div>
     </div>
   </div>
 </div>
