@@ -288,7 +288,9 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             scope.printLn(scope.options.customPrefix +"> <b>"+ command +"</b>");
 
             /* Save command on history */
-            scope.history.push(command);
+            if(command !== ""){
+              scope.history.push(command);
+            }
           }
 
           /* Update history index */
