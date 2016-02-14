@@ -15,7 +15,7 @@ app.controller('mainController', ['$scope', function($scope){
 
   $scope.message = "Please, press 'º' key";
 
-  $scope.console = {
+  $scope.options = {
     open: false,
     fixed: false,
     fullscreen: false,
@@ -24,7 +24,7 @@ app.controller('mainController', ['$scope', function($scope){
     customCommands: [
       {
         name: 'test',
-        description: 'This is a test',
+        description: 'This is a test.',
         params: false,
         action: function(printLn, params){
           console.log('Testing custom command');
@@ -32,7 +32,7 @@ app.controller('mainController', ['$scope', function($scope){
       },
       {
         name: 'say',
-        description: 'This command will prompt the specified text',
+        description: 'This command will prompt the specified text.',
         params: [
           {
             name: "text",
