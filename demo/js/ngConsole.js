@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.4.0";
+var version = "1.4.2";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',

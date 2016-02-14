@@ -1,44 +1,60 @@
-<ng-console options="options"></ng-console>
+<div class="mc-layout" mc-layout="1">
+  <div class="mc-layout" mc-layout-size="biggest">
 
-<div style="position: relative; display: inline-block; float: left; width: 50%; padding: 0px 10px; box-sizing: border-box;">
-  <h2>View</h2>
-  <div>
-    <code>
-      &lt;ng-console options="options"&gt;&lt;/ng-console&gt;
-    </code>
+    <!-- Live Demo -->
+    <div class="mc-card">
+      <div class="mc-header">
+        <img style="border-radius:0px!important;" ng-src="img/ngConsole.png" />
+        <h1 class="mc-title">Live Demo</h1>
+      </div>
+      <div class="mc-content">
+        <ng-console options="options" class="ng-isolate-scope"></ng-console>
+      </div>
+    </div>
   </div>
-
-  <h2>Controller</h2>
-  <p>
-    $scope.options = { <br />
-      &nbsp;&nbsp;open: {{ options.open }} <br />
-      &nbsp;&nbsp;fixed: {{ options.fixed }} <br />
-      &nbsp;&nbsp;fullscreen: {{ options.fullscreen }} <br />
-      &nbsp;&nbsp;customHeight: {{ options.customHeight }} <br />
-      &nbsp;&nbsp;customPrefix: "{{ options.customPrefix }}" <br />
-      &nbsp;&nbsp;customCommands: {{ options.customCommands }} <br />
-    };
-  </p>
 </div>
 
-<div style="position: relative; display: inline-block; float: left; width: 50%; padding: 0px 10px; box-sizing: border-box;">
-  <h2>Modify on Real Time</h2>
-  <ul>
-    <li><label><input type="checkbox" ng-model="options.open" /> <b>open</b></label></li>
-    <li>
-      <label><input type="checkbox" ng-model="options.fixed" /> <b>fixed</b></label>
-      <ul ng-if="options.fixed != false">
-        <li>To open the console, please press º key</li>
-      </ul>
-    </li>
-    <li><label><input type="checkbox" ng-model="options.fullscreen" /> <b>fullscreen</b></label></li>
-    <li><b>custom-height</b>: {{ options.customHeight }}</li>
-    <li><b>custom-prefix</b>: <input type="text" ng-model="options.customPrefix" /></li>
-    <li>
-      <b>custom-commands</b>:
-      <ul>
-        <li ng-repeat="command in options.customCommands">{{ command.name }}: {{ command.description }}</li>
-      </ul>
-    </li>
-  </ul>
+<div>
+
+  <!-- View Code -->
+  <div class="mc-card">
+    <div class="mc-header">
+      <h1 class="mc-title">View's code</h1>
+    </div>
+    <div class="mc-content">
+      <code class="mc-code">
+        &lt;ng-console options="options"&gt;&lt;/ng-console&gt;
+      </code>
+    </div>
+  </div>
+
+  <!-- Controller code -->
+  <div class="mc-card">
+    <div class="mc-header">
+      <h1 class="mc-title">Controller's code</h1>
+    </div>
+    <div class="mc-content">
+      <code class="mc-code">
+        $scope.options = { <br />
+          &nbsp;&nbsp;open: {{ options.open }} <br />
+          &nbsp;&nbsp;fixed: {{ options.fixed }} <br />
+          &nbsp;&nbsp;fullscreen: {{ options.fullscreen }} <br />
+          &nbsp;&nbsp;customHeight: {{ options.customHeight }} <br />
+          &nbsp;&nbsp;customPrefix: "{{ options.customPrefix }}" <br />
+          &nbsp;&nbsp;customCommands: {{ options.customCommands }} <br />
+        };
+      </code>
+    </div>
+  </div>
+
+  <!-- Links -->
+  <div class="mc-card">
+    <div class="mc-header">
+      <h1 class="mc-title">Links</h1>
+    </div>
+    <div class="mc-content">
+      <a class="mc-button mc-button-comb mc-button-raised mc-clickable" mc-action="github" target="_blank" ng-href="https://github.com/ImperdibleSoft/ngConsole" href="https://github.com/ImperdibleSoft/ngConsole">Contribute</a>
+      <a class="mc-button mc-button-comb mc-button-raised mc-clickable" mc-action="imperdiblesoft" target="_blank" ng-href="http://www.imperdiblesoft.com/" href="http://www.imperdiblesoft.com/">ImperdibleSoft</a>
+    </div>
+  </div>
 </div>
