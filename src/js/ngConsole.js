@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.2.5";
+var version = "1.3.0";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -285,7 +285,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
           /* Print command executed */
           if(!noPrint){
-            scope.printLn(scope.options.customPrefix +" <b>"+ command +"</b>");
+            scope.printLn(scope.options.customPrefix +"> <b>"+ command +"</b>");
 
             /* Save command on history */
             scope.history.push(command);
