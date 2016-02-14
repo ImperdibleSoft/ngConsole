@@ -29,7 +29,7 @@ gulp.task('production', gulpSequence('clean', 'parse', 'build'));
 /* CLEANING */
 // Clean production directory
 gulp.task('clean', function(){
-  return gulp.src([prodEnv + '/*', '!' + prodEnv + '/index.html'], {read: false})
+  return gulp.src([prodEnv + '/*', '!' + prodEnv + '/index.html', '!' + prodEnv + '/img', '!' + prodEnv + '/img/*'], {read: false})
   .pipe(clean());
 });
 
