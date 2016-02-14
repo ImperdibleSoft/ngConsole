@@ -116,11 +116,25 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
                 /* Restore ngConsole's state to its initial state */
                 if(params.reset){
+
+                  /* Close console */
+                  scope.open = false;
+
+                  /* Remove styles */
                   document.querySelector("ng-console #custom-bg").innerHTML = "";
                   document.querySelector("ng-console #custom-color").innerHTML = "";
+
+                  /* Clean new line */
                   scope.executeCommand("clear");
+
+                  /* Show console info */
                   scope.executeCommand("console --info", true);
-                  scope.open = false;
+
+                  /* Clean commands history */
+                  scope.history = [];
+                  scope.historyIndex = 0;
+
+                  /* Apply changes */
                   scope.apply();
                 }
               }
@@ -143,13 +157,13 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
               var temp = "<p>Available commands: ";
               temp += "<ul>";
 
-              /* Loop throught all declared commands */
+              /* Loop through all declared commands */
               for(var x in scope.commands){
                 var elem = scope.commands[x];
                 temp += "<li>";
                 temp += elem.description;
 
-                /* Loop throught all declared params */
+                /* Loop through all declared params */
                 if(elem.params){
                   temp += "<ul>";
                   for(var y in elem.params){
@@ -176,6 +190,10 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             }
           }
 
+          /* Commands history */
+          scope.history = [];
+
+          /* Show initial info */
           scope.executeCommand("console --info", true);
         };
 
@@ -232,7 +250,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         };
 
         /* Send the command */
-        scope.executeCommand = function(manual, clean){
+        scope.executeCommand = function(manual, noPrint){
 
           /* Read the command */
           if(manual && manual != ""){
@@ -246,9 +264,15 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           scope.cleanLn();
 
           /* Print command executed */
-          if(!clean){
+          if(!noPrint){
             scope.printLn(scope.customPrefix +" <b>"+ command +"</b>");
+
+            /* Save command on history */
+            scope.history.push(command);
           }
+
+          /* Update history index */
+          scope.historyIndex = scope.history.length - 1;
 
           /* Loop all available commands */
           var existing = false;
@@ -337,7 +361,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           }
 
           /* Remove already written */
-          else if(e.keyCode == 27 || e.key== "Escape"){
+          else if(e.keyCode == 27 || e.key == "Escape"){
             e.preventDefault();
             if(scope.command != ""){
               scope.cleanLn();
@@ -345,6 +369,45 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             else if(scope.fixed == true && scope.open == true){
               scope.toggle();
             }
+            scope.apply();
+          }
+
+          /* Move up/down through all the history */
+          else if(e.keyCode == 38 || e.key == "Up" || e.keyCode == 40 || e.key == "Down"){
+            e.preventDefault();
+
+            /* Place the command */
+            scope.command = scope.history[ scope.historyIndex ];
+
+            /* Update the index */
+            /* Move up */
+            if(e.keyCode == 38 || e.key == "Up"){
+
+              /* First item */
+              if(scope.historyIndex == 0){
+                scope.historyIndex = scope.history.length - 1;
+              }
+
+              /* Any other item */
+              else{
+                scope.historyIndex--;
+              }
+            }
+
+            /* Move down */
+            else if(e.keyCode == 40 || e.key == "Down"){
+
+              /* Last item */
+              if(scope.historyIndex == (scope.history.length - 1)){
+                scope.historyIndex = 0;
+              }
+
+              /* Any other item */
+              else{
+                scope.historyIndex++;
+              }
+            }
+
             scope.apply();
           }
         });
