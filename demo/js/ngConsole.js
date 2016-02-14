@@ -4,7 +4,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
       transclude: true,
-      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;min-height:300px;padding:10px;top:0;background-color:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;list-style:none;text-align:left}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .new-line .prefix,.console .new-line input[type=text],.console .new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;text-align:left;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .new-line{position: relative;display: block;float: left;width: 100%;}.console .new-line .prefix{width:auto}.console .new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': open, \'fixed\': fixed, \'fullscreen\': fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="new-line"><span class="prefix">{{ customPrefix }}</span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
+      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;min-height:300px;padding:10px;top:0;border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;list-style:none;text-align:left}.console .console-background{position:absolute;display:block;float:left;width:100%;height:100%;padding:0px;margin:0px;top:0px;left:0px;background-color:#000;opacity:1;}.console.fixed .console-background{opacity:0.8;}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .command-new-line .prefix,.console .command-new-line input[type=text],.console .command-new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;text-align:left;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .command-new-line{position: relative;display: block;float: left;width: 100%;}.console .command-new-line .prefix{width:auto}.console .command-new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': open, \'fixed\': fixed, \'fullscreen\': fullscreen}" ng-submit="executeCommand()"><!-- Console background --><div class="console-background"></div><!-- Command list --><div class="command-list"></div><div class="command-new-line"><span class="prefix">{{ customPrefix }}</span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
       scope:{
         open: "=open",                         // Open by default
         fixed: "=fixed",                       // Fixed and hidden
@@ -90,7 +90,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
                 /* Change the ngConsole's background */
                 if(params.bg){
-                  document.querySelector(".console").style.background = params.bg;
+                  document.querySelector(".console .console-background").style.background = params.bg;
                 }
 
                 /* Display info about ngConsole */
@@ -103,12 +103,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
                 /* Restore ngConsole's state to its initial state */
                 if(params.reset){
-                  if(scope.fixed){
-                    document.querySelector(".console").style.background = "rgba(0, 0, 0, 0.8)";
-                  }
-                  else{
-                    document.querySelector(".console").style.background = "rgba(0, 0, 0, 1)";
-                  }
+                  document.querySelector(".console .console-background").style.background = "#000";
                   scope.executeCommand("clear");
                   scope.executeCommand("console --info", true);
                   scope.open = false;
@@ -180,15 +175,15 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             scope.scrollBottom();
 
             /* Focus the new line */
-            if(document.querySelector(".console .new-line input")){
-              document.querySelector(".console .new-line input").focus();
+            if(document.querySelector(".console .command-new-line input")){
+              document.querySelector(".console .command-new-line input").focus();
             }
           }
           else{
 
             /* Remove the focus */
-            if(document.querySelector(".console .new-line input")){
-              document.querySelector(".console .new-line input").blur();
+            if(document.querySelector(".console .command-new-line input")){
+              document.querySelector(".console .command-new-line input").blur();
               scope.cleanLn();
             }
           }
@@ -213,7 +208,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         /* Scroll to new Line position */
         scope.scrollBottom = function(){
           var elem = document.querySelector(".console");
-          var newTop = document.querySelector(".command-list").clientHeight + document.querySelector(".new-line").clientHeight;
+          var newTop = document.querySelector(".command-list").clientHeight + document.querySelector(".command-new-line").clientHeight;
           elem.scrollTop = newTop;
         }
 
