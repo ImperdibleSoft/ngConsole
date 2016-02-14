@@ -19,16 +19,19 @@ You can use different attributes to customize it:
 
 # Custom commands
 Custom commands should have a particular properties. Each command must have:
-* name: The keyword used to execute the command (string)
-* description: A short description to show with <code>help</code>
-* action: The function that's gonna be executed. 
+* name: The keyword used to execute the command (<code>"string"</code>)
+* description: A short description to show with <code>help</code> command (<code>"string"</code>)
+* params: A list of parameters that can be used with this command (Object: <code>{name: "string", description: "string"}</code>)
+* action: The function that's gonna be executed (<code>function(printLn, params){ whatever(); }</code>). 
 
 # Params
-If you want to use params, you have to declare the 'action' function like this <code>function(printLn, params){ whatever(); }</code>
-It's very important to use this <code>printLn</code> and <code>params</code>.
+When declaring your action function, as described below, you have to use these params:
 * *printLn*: A function that allows you to print on the console.
-* *params*: Parameters introduced by user (if detected).
+* *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).
 
-In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say something</code>, it's going to prompt you "something".
-
-Of course, you can play with your params like you want, inside the "action" function.
+In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
+function(printLn, params){ <br />
+&nbsp;&nbsp;if(params && params.text){ <br />
+&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text); <br />
+&nbsp;&nbsp;} <br />
+} <br />
