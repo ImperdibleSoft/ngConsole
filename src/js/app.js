@@ -53,7 +53,7 @@ app.controller('mainController', ['$scope', function($scope){
             }
           }
           else{
-            printLn("<span style='color: white;'>Error</span>: You need to specify (at least) one param.");
+            printLn("<b>Error</b>: You need to specify (at least) one param.");
           }
         }
       }
