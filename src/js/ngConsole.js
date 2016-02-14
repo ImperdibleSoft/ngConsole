@@ -1,37 +1,31 @@
 var dev = false;
-var version = "1.2.2";
+var version = "1.2.5";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
       transclude: true,
-      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;min-height:300px;padding:10px;top:0;background-color:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;list-style:none;text-align:left}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .new-line .prefix,.console .new-line input[type=text],.console .new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;color:#ccc;font-family:monospace;font-size:11px;line-height:16px;text-align:left;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .new-line{position: relative;display: block;float: left;width: 100%;}.console .new-line .prefix{width:auto}.console .new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': open, \'fixed\': fixed, \'fullscreen\': fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="new-line"><span class="prefix">{{ customPrefix }}</span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
+      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;min-height:300px;padding:10px;top:0;background:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:130%;list-style:none;text-align:left}.console b{color:#fff;}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .command-new-line .prefix,.console .command-new-line input[type=text],.console .command-new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .command-new-line{position: relative;display: block;float: left;width: 100%;}.console .command-new-line .prefix{width:auto}.console .command-new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><style id="custom-bg"></style><style id="custom-color"></style><style id="custom-fontsize"></style><style id="custom-fontfamily"></style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': options.open, \'fixed\': options.fixed, \'fullscreen\': options.fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="command-new-line"><span class="prefix">{{ options.customPrefix }}></span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
       scope:{
-        open: "=open",                         // Open by default
-        fixed: "=fixed",                       // Fixed and hidden
-        fullscreen: "=fullscreen",             // Full height
-        customHeight: "=customHeight",         // Custom height
-
-        customPrefix: "=customPrefix",         // Prefix shown
-        customCommands: "=customCommands"      // New commands
+        options: "=options"
       },
       link: function(scope, element, attrs){
 
         scope.init = function(){
 
           /* If there is a custom height */
-          if(scope.customHeight && !scope.fullscreen){
-            document.querySelector(".console").style.height = scope.customHeight;
+          if(scope.options.customHeight && !scope.options.fullscreen){
+            document.querySelector(".console").style.height = scope.options.customHeight;
 
-            if(scope.fixed){
-              document.querySelector(".console").style.top = (scope.customHeight * (-1));
+            if(scope.options.fixed){
+              document.querySelector(".console").style.top = (scope.options.customHeight * (-1));
             }
           }
 
           /* If there is no prefix, set a default one */
-          if(!scope.customPrefix){
-            scope.customPrefix = "ngConsole";
+          if(!scope.options.customPrefix){
+            scope.options.customPrefix = "ngConsole";
           }
-          scope.customPrefix += ">";
+          scope.options.customPrefix;
 
           /* Default commands */
           scope.commands = {};
@@ -77,6 +71,18 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                 description: "Change the ngConsole's background."
               },
               {
+                name: "color",
+                description: "Change the ngConsole's font color."
+              },
+              {
+                name: "fontfamily",
+                description: "Change the ngConsole's font family."
+              },
+              {
+                name: "fontsize",
+                description: "Change the ngConsole's font size."
+              },
+              {
                 name: "info",
                 description: "Display info about ngConsole."
               },
@@ -90,28 +96,65 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
                 /* Change the ngConsole's background */
                 if(params.bg){
-                  document.querySelector(".console").style.background = params.bg;
+                  var temp = ".console{ background: "+ params.bg +" !important; }";
+                  document.querySelector("ng-console #custom-bg").innerHTML = temp;
+                }
+
+                /* Change the ngConsole's font color */
+                if(params.color){
+
+                  /* Build new styles */
+                  var temp = ".console, .console *{ color: "+ params.color +" !important; }";
+                  document.querySelector("ng-console #custom-color").innerHTML = temp;
+                }
+
+                /* Change the ngConsole's font color */
+                if(params.fontfamily){
+
+                  /* Build new styles */
+                  var temp = ".console, .console *{ font-family: "+ params.fontfamily +" !important; }";
+                  document.querySelector("ng-console #custom-fontfamily").innerHTML = temp;
+                }
+
+                /* Change the ngConsole's font color */
+                if(params.fontsize){
+
+                  /* Build new styles */
+                  var temp = ".console, .console *{ font-size: "+ parseInt(params.fontsize) +"px !important; }";
+                  document.querySelector("ng-console #custom-fontsize").innerHTML = temp;
                 }
 
                 /* Display info about ngConsole */
                 if(params.info){
-                  printLn("<b><span style='color: white'>ngConsole v"+ version +"</span></b>");
-                  printLn("<b><span style='color: white'>Author</span></b>: ImperdibleSoft (<a href='http://www.imperdiblesoft.com' target='_blank'>http://www.imperdiblesoft.com</a>)");
-                  printLn("<b><span style='color: white'>Repository</span></b>: <a href='https://github.com/ImperdibleSoft/ngConsole' target='_blank'>https://github.com/ImperdibleSoft/ngConsole</a>");
+                  printLn("<b>ngConsole v"+ version +"</b>");
+                  printLn("<b>Author</b>: ImperdibleSoft (<a href='http://www.imperdiblesoft.com' target='_blank'>http://www.imperdiblesoft.com</a>)");
+                  printLn("<b>Repository</b>: <a href='https://github.com/ImperdibleSoft/ngConsole' target='_blank'>https://github.com/ImperdibleSoft/ngConsole</a>");
                   printLn("<br />");
                 }
 
                 /* Restore ngConsole's state to its initial state */
                 if(params.reset){
-                  if(scope.fixed){
-                    document.querySelector(".console").style.background = "rgba(0, 0, 0, 0.8)";
-                  }
-                  else{
-                    document.querySelector(".console").style.background = "rgba(0, 0, 0, 1)";
-                  }
+
+                  /* Close console */
+                  scope.options.open = false;
+
+                  /* Remove styles */
+                  document.querySelector("ng-console #custom-bg").innerHTML = "";
+                  document.querySelector("ng-console #custom-color").innerHTML = "";
+                  document.querySelector("ng-console #custom-fontfamily").innerHTML = "";
+                  document.querySelector("ng-console #custom-fontsize").innerHTML = "";
+
+                  /* Clean new line */
                   scope.executeCommand("clear");
+
+                  /* Show console info */
                   scope.executeCommand("console --info", true);
-                  scope.open = false;
+
+                  /* Clean commands history */
+                  scope.history = [];
+                  scope.historyIndex = 0;
+
+                  /* Apply changes */
                   scope.apply();
                 }
               }
@@ -134,19 +177,19 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
               var temp = "<p>Available commands: ";
               temp += "<ul>";
 
-              /* Loop throught all declared commands */
+              /* Loop through all declared commands */
               for(var x in scope.commands){
                 var elem = scope.commands[x];
                 temp += "<li>";
                 temp += elem.description;
 
-                /* Loop throught all declared params */
+                /* Loop through all declared params */
                 if(elem.params){
                   temp += "<ul>";
                   for(var y in elem.params){
                     var param = elem.params[y];
                     temp += "<li>";
-                    temp += "&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: white'>--"+ param.name +"</span>: "+ param.description;
+                    temp += "&nbsp;&nbsp;&nbsp;&nbsp;<b>--"+ param.name +"</b>: "+ param.description;
                     temp += "</li>";
                   }
                   temp += "</ul>";
@@ -160,35 +203,39 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           );
 
           /* Store custom commands */
-          if(scope.customCommands){
-            for(var x in scope.customCommands){
-              var action = scope.customCommands[x];
+          if(scope.options.customCommands){
+            for(var x in scope.options.customCommands){
+              var action = scope.options.customCommands[x];
               scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
             }
           }
 
+          /* Commands history */
+          scope.history = [];
+
+          /* Show initial info */
           scope.executeCommand("console --info", true);
         };
 
         /* Open/close the console */
         scope.toggle = function(){
-          scope.open = !scope.open;
+          scope.options.open = !scope.options.open;
 
-          if(scope.open === true){
+          if(scope.options.open === true){
 
             /* Scrolls to new line */
             scope.scrollBottom();
 
             /* Focus the new line */
-            if(document.querySelector(".console .new-line input")){
-              document.querySelector(".console .new-line input").focus();
+            if(document.querySelector(".console .command-new-line input")){
+              document.querySelector(".console .command-new-line input").focus();
             }
           }
           else{
 
             /* Remove the focus */
-            if(document.querySelector(".console .new-line input")){
-              document.querySelector(".console .new-line input").blur();
+            if(document.querySelector(".console .command-new-line input")){
+              document.querySelector(".console .command-new-line input").blur();
               scope.cleanLn();
             }
           }
@@ -213,7 +260,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         /* Scroll to new Line position */
         scope.scrollBottom = function(){
           var elem = document.querySelector(".console");
-          var newTop = document.querySelector(".command-list").clientHeight + document.querySelector(".new-line").clientHeight;
+          var newTop = document.querySelector(".command-list").clientHeight + document.querySelector(".command-new-line").clientHeight;
           elem.scrollTop = newTop;
         }
 
@@ -223,7 +270,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         };
 
         /* Send the command */
-        scope.executeCommand = function(manual, clean){
+        scope.executeCommand = function(manual, noPrint){
 
           /* Read the command */
           if(manual && manual != ""){
@@ -237,9 +284,15 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           scope.cleanLn();
 
           /* Print command executed */
-          if(!clean){
-            scope.printLn(scope.customPrefix +" <span style=\'color: white;\'>"+ command +"</span>");
+          if(!noPrint){
+            scope.printLn(scope.options.customPrefix +" <b>"+ command +"</b>");
+
+            /* Save command on history */
+            scope.history.push(command);
           }
+
+          /* Update history index */
+          scope.historyIndex = scope.history.length - 1;
 
           /* Loop all available commands */
           var existing = false;
@@ -296,7 +349,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
             /* Show error message */
             else{
-              scope.printLn("\'<b><span style=\'color: white;\'>" + command + "</span></b>\': command not found. Use \'help\' for more info.");
+              scope.printLn("\'<b>" + command + "</b>\': command not found. Use \'help\' for more info.");
             }
           }
 
@@ -307,7 +360,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
         /* Command builder */
         function Command(name, description, params, callback){
           this.name = name;
-          this.description = "&nbsp;&nbsp;<span style=\'color: white;\'>"+ name +"</span>: "+ description;
+          this.description = "&nbsp;&nbsp;<b>"+ name +"</b>: "+ description;
           this.params = params;
           this.exec = callback;
         };
@@ -328,14 +381,53 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           }
 
           /* Remove already written */
-          else if(e.keyCode == 27 || e.key== "Escape"){
+          else if(e.keyCode == 27 || e.key == "Escape"){
             e.preventDefault();
             if(scope.command != ""){
               scope.cleanLn();
             }
-            else if(scope.fixed == true && scope.open == true){
+            else if(scope.options.fixed == true && scope.options.open == true){
               scope.toggle();
             }
+            scope.apply();
+          }
+
+          /* Move up/down through all the history */
+          else if(e.keyCode == 38 || e.key == "Up" || e.keyCode == 40 || e.key == "Down"){
+            e.preventDefault();
+
+            /* Place the command */
+            scope.command = scope.history[ scope.historyIndex ];
+
+            /* Update the index */
+            /* Move up */
+            if(e.keyCode == 38 || e.key == "Up"){
+
+              /* First item */
+              if(scope.historyIndex == 0){
+                scope.historyIndex = scope.history.length - 1;
+              }
+
+              /* Any other item */
+              else{
+                scope.historyIndex--;
+              }
+            }
+
+            /* Move down */
+            else if(e.keyCode == 40 || e.key == "Down"){
+
+              /* Last item */
+              if(scope.historyIndex == (scope.history.length - 1)){
+                scope.historyIndex = 0;
+              }
+
+              /* Any other item */
+              else{
+                scope.historyIndex++;
+              }
+            }
+
             scope.apply();
           }
         });
