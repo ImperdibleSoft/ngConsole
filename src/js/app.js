@@ -20,7 +20,7 @@ app.controller('mainController', ['$scope', function($scope){
     fixed: false,
     fullscreen: false,
     customHeight: 450,
-    customPrefix: "Custom Prefix",
+    customPrefix: false,
     customCommands: [
       {
         name: 'test',

@@ -23,13 +23,16 @@ var jsGlob    = devEnv + '/**/*.js';
 // Parse all ./src files into ./dist folder, with 1 CSS variation. Launch webserver
 gulp.task('default', gulpSequence('clean', 'parse', 'build', 'webserver'));
 
-// Parse all .src files into .dist folder, with all CSS variations. No webserver.
-gulp.task('production', gulpSequence('clean', 'parse', 'build'));
-
 /* CLEANING */
 // Clean production directory
 gulp.task('clean', function(){
-  return gulp.src([prodEnv + '/*', '!' + prodEnv + '/index.html', '!' + prodEnv + '/img', '!' + prodEnv + '/img/*'], {read: false})
+  return gulp.src([
+    prodEnv + '/*',
+    '!' + prodEnv + '/index.html',
+    '!' + prodEnv + '/img',
+    '!' + prodEnv + '/img/*',
+    buildEnv + '/*'
+  ], {read: false})
   .pipe(clean());
 });
 
@@ -86,14 +89,47 @@ gulp.task('combineJS', function(){
   }
 });
 
-// Make the 3 combinations
-gulp.task('build', gulpSequence(['combineJS']));
+// Move ngConsole.js to build env
+gulp.task('jsToBuild', function(){
+
+  // Move to build folder
+  return gulp.src([
+    devEnv + '/js/ngConsole.js'
+  ])
+    .pipe(rename(function(path) {
+      var singleRoute = path.dirname;
+      var pos = singleRoute.indexOf("\/");
+      if (pos < 0) { pos = singleRoute.indexOf("\\"); }
+      var finalPath = singleRoute.substring(0, pos);
+      path.dirname = finalPath;
+    }))
+    .pipe(gulp.dest(buildEnv));
+});
+
+// Uglify ngConsole
+gulp.task('compressBuild', function(){
+
+  // Minify and uglify
+  return gulp.src([
+    buildEnv + '/ngConsole.js'
+  ])
+    .pipe(uglify())
+    .pipe(concat('ngConsole.js'))
+    .pipe(gulp.dest(buildEnv));
+});
+
+// Combine, uglify, minify files
+gulp.task('buildDirective', function(callback){ gulpSequence('jsToBuild', 'compressBuild')(callback) });
+gulp.task('build', function(callback){ gulpSequence(['combineJS', 'buildDirective'])(callback) });
 
 /* SERVING */
+gulp.task('htmlUpdate', function(callback){ gulpSequence('html')(callback) });
+gulp.task('jsUpdate', function(callback){ gulpSequence('js', 'build')(callback) });
+
 // Watch for changes into ./src and make a new build
 gulp.task('watcher', function(){
-  gulp.watch([devEnv + '/**/*.js'], ['js']);
-  gulp.watch([devEnv + '/**/*.html'], ['html']);
+  gulp.watch([devEnv + '/**/*.html'], ['htmlUpdate']);
+  gulp.watch([devEnv + '/**/*.js'], ['jsUpdate']);
 });
 
 // Launch webserver
