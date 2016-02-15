@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.4.6";
+var version = "1.4.7";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -258,6 +258,8 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
           /* Append new command to history */
           document.querySelector(".console .command-list").innerHTML = prev + "<p>" + string + "</p>";
+
+          scope.scrollBottom();
         }
 
         /* Clean the new line */
