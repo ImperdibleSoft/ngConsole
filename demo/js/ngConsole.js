@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.4.2";
+var version = "1.4.3";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -351,7 +351,8 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
             /* Show error message */
             else{
-              scope.printLn("\'<b>" + command + "</b>\': command not found. Use \'help\' for more info.");
+              var temp = command.split(" --");
+              scope.printLn("\'<b>" + temp[0] + "</b>\': command not found. Use \'help\' for more info.");
             }
           }
 
