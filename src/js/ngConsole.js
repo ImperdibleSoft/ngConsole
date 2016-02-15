@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.4.5";
+var version = "1.4.6";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -21,8 +21,12 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
             }
           }
 
-          if(!scope.options.customHeight){
+          else if(!scope.options.customHeight){
             document.querySelector(".console").style.height = 400;
+
+            if(scope.options.fixed){
+              document.querySelector(".console").style.top = -400;
+            }
           }
 
           /* If there is no prefix, set a default one */
