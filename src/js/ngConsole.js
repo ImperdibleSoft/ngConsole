@@ -1,6 +1,15 @@
+
+/* Some custom variables */
 var dev = false;
-var version = "1.5.2";
-app.directive('ngConsole', ['$rootScope', function($rootScope) {
+var version = "1.6.0";
+
+/* Create module */
+var ngc = angular.module('officeDoors', [])
+
+/* Create directive */
+.directive('ngConsole',
+  ['$rootScope',
+  function($rootScope) {
     return {
       restrict: 'AE',
       transclude: true,
@@ -352,7 +361,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
         /* scope.$apply() */
         scope.apply = function(){
-          if(!dev || dev === true){ scope.$apply(); }
+          if(dev == true){ scope.$apply(); }
         };
 
         /* Send the command */
