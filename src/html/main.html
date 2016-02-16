@@ -40,7 +40,14 @@
             &nbsp;&nbsp;fullscreen: {{ options.fullscreen }} <br />
             &nbsp;&nbsp;customHeight: {{ options.customHeight }} <br />
             &nbsp;&nbsp;customPrefix: "{{ options.customPrefix }}" <br />
-            &nbsp;&nbsp;customCommands: {{ options.customCommands }} <br />
+            &nbsp;&nbsp;customCommands: [ <br />
+              <span style="line-height:99%;color:#666;" ng-repeat="command in options.customCommands">&nbsp;&nbsp;&nbsp;&nbsp;{ <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: "{{ command.name }}" <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description: "{{ command.description }}" <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params: {{ command.params }} <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action: {{ command.action.toString() }} <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;},</span> <br />
+            &nbsp;&nbsp;] <br />
           };
         </code>
       </div>
