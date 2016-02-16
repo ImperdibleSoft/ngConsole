@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.4.7";
+var version = "1.4.8";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -307,13 +307,13 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           scope.historyIndex = false;
 
           /* Loop all available commands */
-          var existing = false;
+          var existingCommand = false;
           for(var x in scope.commands){
             var elem = scope.commands[x];
 
             /* The first word is the command name */
             if((command.indexOf(" --") >= 0 && command.substr(0, command.indexOf(" --")) === elem.name) || (command.indexOf(" --") < 0 && command === elem.name)){
-              existing = true;
+              existingCommand = true;
 
               /* There are params */
               if(command.indexOf(" --") >= 0){
@@ -324,6 +324,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                 for(var y in params){
 
                   /* Skip first element */
+                  var existingParam = false;
                   if(y != 0){
                     var param = params[y].split("=");
                     var p = {
@@ -334,8 +335,14 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                     /* Loop all declared params */
                     for(var z in elem.params){
                       if(p.name === elem.params[z].name){
+                        existingParam = true;
                         temp[p.name] = p.value;
+                        break;
                       }
+                    }
+
+                    if(!existingParam){
+                      scope.printLn("\'<b>--" + p.name + "</b>\': param not found on '<b>"+ elem.name +"</b>' command. Use \'help\' for more info.");
                     }
                   }
                 }
@@ -352,7 +359,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           }
 
           /* If no available command */
-          if(!existing){
+          if(!existingCommand){
 
             /* Print empty line */
             if(command == "" || !command){
