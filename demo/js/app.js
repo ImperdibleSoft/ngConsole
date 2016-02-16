@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute', 'officeDoors']);
+var app = angular.module('app', ['ngRoute', 'ngConsole']);
 
 app.config(['$routeProvider', function($routeProvider){
   $routeProvider
