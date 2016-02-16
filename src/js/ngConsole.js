@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.5.0";
+var version = "1.5.2";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -66,9 +66,13 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           );
           scope.commands.cls = new Command(
             "cls",
-            "Clean command history.",
+            "Clean command history ('clear' alias).",
             false,
-            scope.commands.clear.exec
+            function(printLn, params){
+
+              /* Clean the console */
+              scope.executeCommand("clear", true);
+            }
           );
           scope.commands.console = new Command(
             "console",
@@ -93,6 +97,10 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
               {
                 name: "info",
                 description: "Display info about ngConsole."
+              },
+              {
+                name: "close",
+                description: "Close the console and clear commands history."
               },
               {
                 name: "reset",
@@ -146,11 +154,28 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                   printLn("<br />");
                 }
 
-                /* Restore ngConsole's state to its initial state */
-                if(params.reset){
+                /* Close the console and clear commands history. */
+                if(params.close){
 
                   /* Close console */
                   scope.options.open = false;
+
+                  /* Clean new line */
+                  scope.executeCommand("clear", true);
+
+                  /* Show console info */
+                  scope.executeCommand("console --info", true);
+
+                  /* Clean commands history */
+                  scope.history = [];
+                  scope.historyIndex = 0;
+
+                  /* Apply changes */
+                  scope.apply();
+                }
+
+                /* Restore ngConsole's state to its initial state */
+                if(params.reset){
 
                   /* Remove styles */
                   document.querySelector("ng-console #custom-bg").innerHTML = "";
@@ -164,29 +189,19 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                     localStorage.removeItem("ngc-fontsize");
                   }
 
-                  /* Clean new line */
-                  scope.executeCommand("clear");
-
-                  /* Show console info */
-                  scope.executeCommand("console --info", true);
-
-                  /* Clean commands history */
-                  scope.history = [];
-                  scope.historyIndex = 0;
-
-                  /* Apply changes */
-                  scope.apply();
+                  scope.executeCommand("console --close", true);
                 }
               }
             }
           );
           scope.commands.exit = new Command(
             "exit",
-            "Close the console.",
+            "Close the console and clear commands history ('console --close' alias).",
             false,
             function(printLn, params){
-              scope.commands.clear.exec();
-              scope.toggle();
+
+              /* Close the console */
+              scope.executeCommand("console --close", true);
             }
           );
           scope.commands.help = new Command(
