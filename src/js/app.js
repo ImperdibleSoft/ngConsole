@@ -13,8 +13,6 @@ app.config(['$routeProvider', function($routeProvider){
 
 app.controller('mainController', ['$scope', function($scope){
 
-  $scope.message = "Please, press 'º' key";
-
   $scope.options = {
     open: false,
     fixed: false,
@@ -45,11 +43,13 @@ app.controller('mainController', ['$scope', function($scope){
         ],
         action: function(printLn, params){
           if(params){
-            if(params.popup){
-              alert(params.text);
-            }
-            else{
-              printLn(params.text);
+            if(params.text){
+              if(params.popup){
+                alert(params.text);
+              }
+              else{
+                printLn(params.text);
+              }
             }
           }
           else{

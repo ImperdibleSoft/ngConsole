@@ -1,5 +1,5 @@
 var dev = false;
-var version = "1.4.7";
+var version = "1.5.2";
 app.directive('ngConsole', ['$rootScope', function($rootScope) {
     return {
       restrict: 'AE',
@@ -66,9 +66,13 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           );
           scope.commands.cls = new Command(
             "cls",
-            "Clean command history.",
+            "Clean command history ('clear' alias).",
             false,
-            scope.commands.clear.exec
+            function(printLn, params){
+
+              /* Clean the console */
+              scope.executeCommand("clear", true);
+            }
           );
           scope.commands.console = new Command(
             "console",
@@ -95,6 +99,10 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                 description: "Display info about ngConsole."
               },
               {
+                name: "close",
+                description: "Close the console and clear commands history."
+              },
+              {
                 name: "reset",
                 description: "Restore ngConsole's state to its initial state."
               }
@@ -104,8 +112,11 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
 
                 /* Change the ngConsole's background */
                 if(params.bg){
+
+                  /* Build new styles */
                   var temp = ".console{ background: "+ params.bg +" !important; }";
                   document.querySelector("ng-console #custom-bg").innerHTML = temp;
+                  scope.saveConfig("ngc-bg", params.bg);
                 }
 
                 /* Change the ngConsole's font color */
@@ -114,6 +125,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                   /* Build new styles */
                   var temp = ".console, .console *{ color: "+ params.color +" !important; }";
                   document.querySelector("ng-console #custom-color").innerHTML = temp;
+                  scope.saveConfig("ngc-color", params.color);
                 }
 
                 /* Change the ngConsole's font color */
@@ -122,6 +134,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                   /* Build new styles */
                   var temp = ".console, .console *{ font-family: "+ params.fontfamily +" !important; }";
                   document.querySelector("ng-console #custom-fontfamily").innerHTML = temp;
+                  scope.saveConfig("ngc-fontfamily", params.fontfamily);
                 }
 
                 /* Change the ngConsole's font color */
@@ -130,6 +143,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                   /* Build new styles */
                   var temp = ".console, .console *{ font-size: "+ parseInt(params.fontsize) +"px !important; }";
                   document.querySelector("ng-console #custom-fontsize").innerHTML = temp;
+                  scope.saveConfig("ngc-fontsize", params.fontsize);
                 }
 
                 /* Display info about ngConsole */
@@ -140,20 +154,14 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                   printLn("<br />");
                 }
 
-                /* Restore ngConsole's state to its initial state */
-                if(params.reset){
+                /* Close the console and clear commands history. */
+                if(params.close){
 
                   /* Close console */
                   scope.options.open = false;
 
-                  /* Remove styles */
-                  document.querySelector("ng-console #custom-bg").innerHTML = "";
-                  document.querySelector("ng-console #custom-color").innerHTML = "";
-                  document.querySelector("ng-console #custom-fontfamily").innerHTML = "";
-                  document.querySelector("ng-console #custom-fontsize").innerHTML = "";
-
                   /* Clean new line */
-                  scope.executeCommand("clear");
+                  scope.executeCommand("clear", true);
 
                   /* Show console info */
                   scope.executeCommand("console --info", true);
@@ -165,16 +173,35 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                   /* Apply changes */
                   scope.apply();
                 }
+
+                /* Restore ngConsole's state to its initial state */
+                if(params.reset){
+
+                  /* Remove styles */
+                  document.querySelector("ng-console #custom-bg").innerHTML = "";
+                  document.querySelector("ng-console #custom-color").innerHTML = "";
+                  document.querySelector("ng-console #custom-fontfamily").innerHTML = "";
+                  document.querySelector("ng-console #custom-fontsize").innerHTML = "";
+                  if(localStorage){
+                    localStorage.removeItem("ngc-bg");
+                    localStorage.removeItem("ngc-color");
+                    localStorage.removeItem("ngc-fontfamily");
+                    localStorage.removeItem("ngc-fontsize");
+                  }
+
+                  scope.executeCommand("console --close", true);
+                }
               }
             }
           );
           scope.commands.exit = new Command(
             "exit",
-            "Close the console.",
+            "Close the console and clear commands history ('console --close' alias).",
             false,
             function(printLn, params){
-              scope.commands.clear.exec();
-              scope.toggle();
+
+              /* Close the console */
+              scope.executeCommand("console --close", true);
             }
           );
           scope.commands.help = new Command(
@@ -221,8 +248,57 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           /* Commands history */
           scope.history = [];
 
+          scope.loadConfig();
+
           /* Show initial info */
           scope.executeCommand("console --info", true);
+        };
+
+        /* Save custom configuration */
+        scope.saveConfig = function(key, value){
+          if(localStorage){
+            if(key && value){
+              localStorage.setItem(key, value);
+            }
+          }
+        };
+
+        /* Load custom configuration */
+        scope.loadConfig = function(){
+          if(localStorage){
+
+            /* Change the ngConsole's background */
+            if(localStorage.getItem("ngc-bg") && localStorage.getItem("ngc-bg") != ""){
+
+              /* Build new styles */
+              var temp = ".console{ background: "+ localStorage.getItem("ngc-bg") +" !important; }";
+              document.querySelector("ng-console #custom-bg").innerHTML = temp;
+            }
+
+            /* Change the ngConsole's font color */
+            if(localStorage.getItem("ngc-color") && localStorage.getItem("ngc-color") != ""){
+
+              /* Build new styles */
+              var temp = ".console, .console *{ color: "+ localStorage.getItem("ngc-color") +" !important; }";
+              document.querySelector("ng-console #custom-color").innerHTML = temp;
+            }
+
+            /* Change the ngConsole's font color */
+            if(localStorage.getItem("ngc-fontfamily") && localStorage.getItem("ngc-fontfamily") != ""){
+
+              /* Build new styles */
+              var temp = ".console, .console *{ font-family: "+ localStorage.getItem("ngc-fontfamily") +" !important; }";
+              document.querySelector("ng-console #custom-fontfamily").innerHTML = temp;
+            }
+
+            /* Change the ngConsole's font color */
+            if(localStorage.getItem("ngc-fontsize") && localStorage.getItem("ngc-fontsize") != ""){
+
+              /* Build new styles */
+              var temp = ".console, .console *{ font-size: "+ parseInt(localStorage.getItem("ngc-fontsize")) +"px !important; }";
+              document.querySelector("ng-console #custom-fontsize").innerHTML = temp;
+            }
+          }
         };
 
         /* Open/close the console */
@@ -307,13 +383,13 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           scope.historyIndex = false;
 
           /* Loop all available commands */
-          var existing = false;
+          var existingCommand = false;
           for(var x in scope.commands){
             var elem = scope.commands[x];
 
             /* The first word is the command name */
             if((command.indexOf(" --") >= 0 && command.substr(0, command.indexOf(" --")) === elem.name) || (command.indexOf(" --") < 0 && command === elem.name)){
-              existing = true;
+              existingCommand = true;
 
               /* There are params */
               if(command.indexOf(" --") >= 0){
@@ -324,6 +400,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                 for(var y in params){
 
                   /* Skip first element */
+                  var existingParam = false;
                   if(y != 0){
                     var param = params[y].split("=");
                     var p = {
@@ -334,8 +411,14 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
                     /* Loop all declared params */
                     for(var z in elem.params){
                       if(p.name === elem.params[z].name){
+                        existingParam = true;
                         temp[p.name] = p.value;
+                        break;
                       }
+                    }
+
+                    if(!existingParam){
+                      scope.printLn("\'<b>--" + p.name + "</b>\': param not found on '<b>"+ elem.name +"</b>' command. Use \'help\' for more info.");
                     }
                   }
                 }
@@ -352,7 +435,7 @@ app.directive('ngConsole', ['$rootScope', function($rootScope) {
           }
 
           /* If no available command */
-          if(!existing){
+          if(!existingCommand){
 
             /* Print empty line */
             if(command == "" || !command){
