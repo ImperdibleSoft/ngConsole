@@ -10,7 +10,7 @@ Thanks to the format we are using, the default command <code>help</code> is able
 To install ngConsole on your project, follow these steps: <br />
 1) Make a <code>npm install ng-console</code>. <br />
 2) Copy the file <code>node_modules/ng-console/build/ngConsole.js</code> to your project's folder. <br />
-3) Open your project's ngConsole.js and replace <code>app</code> with <code>yourAppName</code> <br />
+3) Declare ngConsole as a dependency for your module <code>angular.module('myApp' ['ngConsole'])</code> <br />
 4) Save it. You are done!
 
 # Use

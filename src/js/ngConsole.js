@@ -4,7 +4,7 @@ var dev = false;
 var version = "1.6.0";
 
 /* Create module */
-var ngc = angular.module('officeDoors', [])
+var ngc = angular.module('ngConsole', [])
 
 /* Create directive */
 .directive('ngConsole',
