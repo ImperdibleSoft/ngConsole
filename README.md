@@ -1,5 +1,10 @@
 # ngConsole
-Small directive for angular, to implement a console that's able to execute commands. You can see a demo <a href="http://imperdiblesoft.github.io/ngConsole/demo/" target="_blank">here</a>.
+Small directive for angular, to implement a console that's able to execute commands. You can see a demo <a href="http://imperdiblesoft.github.io/ngConsole/demo/" target="_blank">here</a>.<br />
+
+With this library, developers can avoid to design and create a user interface for small task like reseting server cache, restart some backend tasks and so on. Just create the logic, and ngConsole will allow you to execute all these actions from the same place.
+
+<h2>Self documented commands</h2>
+Thanks to the format we are using, the default command <code>help</code> is able to show a small documentation for all commands (including custom comands) and their params. Also error messages are displayed for non-recognized commands or params.
 
 # Install
 To install ngConsole on your project, just type <code>npm install ng-console</code>
