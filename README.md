@@ -7,10 +7,10 @@ With this directive, developers can avoid to design and create a user interface 
 Thanks to the format we are using, the default command <code>help</code> is able to show a small documentation for all commands (including custom comands) and their params. Also error messages are displayed for non-recognized commands or params.
 
 # Installation
-To install ngConsole on your project, follow these steps:
+To install ngConsole on your project, follow these steps: <br />
 1) Make a <code>npm install ng-console</code>. <br />
-2) Copy the file <code>node_modules/ng-console/build/ngConsole.js</code> to your project's folder.
-3) Open your project's ngConsole.js and replace <code>app</code> with <code>yourAppName</code>
+2) Copy the file <code>node_modules/ng-console/build/ngConsole.js</code> to your project's folder. <br />
+3) Open your project's ngConsole.js and replace <code>app</code> with <code>yourAppName</code> <br />
 4) Save it. You are done!
 
 # Use
@@ -39,8 +39,10 @@ When declaring your action function, as described below, you have to use these p
 * *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).
 
 In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
+<code>
 function(printLn, params){ <br />
 &nbsp;&nbsp;if(params && params.text){ <br />
 &nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text); <br />
 &nbsp;&nbsp;} <br />
-} <br />
+}
+</code>
