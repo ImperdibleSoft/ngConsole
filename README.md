@@ -33,12 +33,18 @@ Custom commands must have particular properties to make them work. Each command 
 * params: A list of parameters that can be used with this command (Object: <code>{name: "string", description: "string"}</code>)
 * action: The function that's gonna be executed (<code>function(printLn, params){ whatever(); }</code>).
 
-# Params
+<h2>Parameters</h2>
 When declaring your action function, as described below, you have to use these params:
 * *printLn*: A function that allows you to print on the console.
 * *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).
 
-In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
+If user wants to use parameters, he/she can use any of these combinations:
+* <code>say --text Hello world</code>
+* <code>say --text "Hello world"</code>
+* <code>say --text=Hello world</code>
+* <code>say --text="Hello world"</code>
+
+In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text Something</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
 <code>
 function(printLn, params){ <br />
 &nbsp;&nbsp;if(params && params.text){ <br />
