@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var dev = false;
-var version = "1.6.2";
+var version = "1.6.3";
 
 /* Create module */
 var ngc = angular.module('ngConsole', [])
@@ -360,8 +360,8 @@ var ngc = angular.module('ngConsole', [])
         }
 
         /* scope.$apply() */
-        scope.apply = function(){
-          if(dev == true){ scope.$apply(); }
+        scope.apply = function(force){
+          if(dev == true || force == true){ scope.$apply(); }
         };
 
         /* Send the command */
@@ -562,7 +562,7 @@ var ngc = angular.module('ngConsole', [])
 
             /* Place the command */
             scope.command = scope.history[ scope.historyIndex ];
-            scope.apply();
+            scope.apply(true);
           }
         });
 
