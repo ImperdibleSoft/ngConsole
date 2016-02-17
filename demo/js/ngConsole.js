@@ -519,7 +519,7 @@ var ngc = angular.module('ngConsole', [])
             else if(scope.options.fixed == true && scope.options.open == true){
               scope.toggle();
             }
-            scope.apply();
+            scope.apply(true);
           }
         });
 
