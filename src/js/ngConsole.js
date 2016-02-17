@@ -417,7 +417,7 @@ var ngc = angular.module('ngConsole', [])
                       var param = params[y].split("=", 2);
                       var p = {
                         name: param[0],
-                        value: (param[1] && param[1] != "") ? param[1].replaceAll("\"", "") : true
+                        value: (param[1] && param[1] != "") ? removeQuotes(param[1]) : true
                       };
                     }
 
@@ -425,7 +425,7 @@ var ngc = angular.module('ngConsole', [])
                     else if(params[y].indexOf(" ") >= 1){
                       var p = {
                         name: params[y].substring(0, params[y].indexOf(" ")),
-                        value: params[y].substring((params[y].indexOf(" ") + 1))
+                        value: removeQuotes(params[y].substring((params[y].indexOf(" ") + 1)))
                       }
                     }
 
@@ -488,6 +488,10 @@ var ngc = angular.module('ngConsole', [])
           this.description = "&nbsp;&nbsp;<b>"+ name +"</b>: "+ description;
           this.params = params;
           this.exec = callback;
+        };
+
+        function removeQuotes(str){
+          return str.replaceAll("\"", "");
         };
 
         /* Relplace all elements */
