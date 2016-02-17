@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var dev = false;
-var version = "1.6.0";
+var version = "1.6.1";
 
 /* Create module */
 var ngc = angular.module('ngConsole', [])
@@ -411,11 +411,31 @@ var ngc = angular.module('ngConsole', [])
                   /* Skip first element */
                   var existingParam = false;
                   if(y != 0){
-                    var param = params[y].split("=");
-                    var p = {
-                      name: param[0],
-                      value: (param[1] && param[1] != "") ? param[1].replaceAll("\"", "") : true
-                    };
+
+                    /* If param uses an '=' to introduce the value */
+                    if(params[y].indexOf("=") >= 1){
+                      var param = params[y].split("=", 2);
+                      var p = {
+                        name: param[0],
+                        value: (param[1] && param[1] != "") ? param[1].replaceAll("\"", "") : true
+                      };
+                    }
+
+                    /* If param uses an ' ' to introduce the value */
+                    else if(params[y].indexOf(" ") >= 1){
+                      var p = {
+                        name: params[y].substring(0, params[y].indexOf(" ")),
+                        value: params[y].substring((params[y].indexOf(" ") + 1))
+                      }
+                    }
+
+                    /* If param has no value */
+                    else{
+                      var p = {
+                        name: params[y],
+                        value: true
+                      }
+                    }
 
                     /* Loop all declared params */
                     for(var z in elem.params){
