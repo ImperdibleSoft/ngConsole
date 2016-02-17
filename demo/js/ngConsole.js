@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var dev = false;
-var version = "1.6.5";
+var version = "1.6.6";
 
 /* Create module */
 var ngc = angular.module('ngConsole', [])
@@ -13,7 +13,7 @@ var ngc = angular.module('ngConsole', [])
     return {
       restrict: 'AE',
       transclude: true,
-      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;z-index:999999999;} .console,.console *{left:0;box-sizing:border-box;margin:0}.console{position:relative;display:inline-block;float:left;width:100%;padding:10px;top:0;background:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:150%;list-style:none;text-align:left}.console b{color:#fff;}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .command-new-line .prefix,.console .command-new-line input[type=text],.console .command-new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .command-new-line{position: relative;display: block;float: left;width: 100%;}.console .command-new-line .prefix{width:auto}.console .command-new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><style id="custom-bg"></style><style id="custom-color"></style><style id="custom-fontsize"></style><style id="custom-fontfamily"></style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': options.open, \'fixed\': options.fixed, \'fullscreen\': options.fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="command-new-line"><span class="prefix">{{ options.customPrefix }}></span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
+      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;z-index:999999999;} .console,.console *{left:0;box-sizing:border-box;margin:0;cursor:default;}.console{position:relative;display:inline-block;float:left;width:100%;padding:10px;top:0;background:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:150%;list-style:none;text-align:left}.console b{color:#fff;}.console input::-webkit-calendar-picker-indicator{display:none}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .command-new-line .prefix,.console .command-new-line input[type=text],.console .command-new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .command-new-line{position: relative;display: block;float: left;width: 100%;}.console .command-new-line .prefix{width:auto}.console .command-new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><style id="custom-bg"></style><style id="custom-color"></style><style id="custom-fontsize"></style><style id="custom-fontfamily"></style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': options.open, \'fixed\': options.fixed, \'fullscreen\': options.fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="command-new-line"><span class="prefix">{{ options.customPrefix }}></span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
       scope:{
         options: "=options"
       },
@@ -523,9 +523,9 @@ var ngc = angular.module('ngConsole', [])
           }
         });
 
-        /* Detect ke press on the input field */
-        var inputField = document.querySelector(".console .command-new-line input[type='text']");
-        inputField.addEventListener('keyup', function(e){
+        /* Detect key press on the input field */
+        var _inputField = document.querySelector(".console .command-new-line input[type='text']");
+        _inputField.addEventListener('keyup', function(e){
 
           /* Move up/down through all the history */
           if(e.keyCode == 38 || e.key == "Up" || e.keyCode == 40 || e.key == "Down"){
@@ -564,6 +564,14 @@ var ngc = angular.module('ngConsole', [])
             scope.command = scope.history[ scope.historyIndex ];
             scope.apply(true);
           }
+        });
+
+        /* Detect clic on the console */
+        var _console = document.querySelector(".console");
+        _console.addEventListener('click', function(e){
+
+          /* Place the focus on the input */
+          _inputField.focus();
         });
 
         scope.init();
