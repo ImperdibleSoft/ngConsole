@@ -34,7 +34,7 @@ var ngc = angular.module('ngConsole', [])
             document.querySelector(".console").style.height = 400;
 
             if(scope.options.fixed){
-              document.querySelector(".console").style.top = -400;
+              document.querySelector(".console").style.top = (-400);
             }
           }
 
