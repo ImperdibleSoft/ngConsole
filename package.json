@@ -1,6 +1,6 @@
 {
   "name": "ng-console",
-  "version": "1.6.3",
+  "version": "1.6.5",
   "description": "Small directive for angular, to implement a console that's able to execute commands.",
   "main": "index.js",
   "scripts": {
