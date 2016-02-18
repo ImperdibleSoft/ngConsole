@@ -57,6 +57,21 @@ app.controller('mainController', ['$scope', function($scope){
           }
         }
       }
-    ]
+    ],
+    customTheme: {
+      name: "custom",
+      data: {
+        bg: "rgba(0,9,76,0.8)",
+        color: "#ccc",
+        boldColor: "#fff",
+        fontsize: 11,
+        fontfamily: "monospace"
+      },
+      labels: {
+        bg: "Dark blue",
+        color: "Light gray",
+        boldColor: "White"
+      },
+    }
   };
 }]);

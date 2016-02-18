@@ -45,10 +45,30 @@ If user wants to use parameters, he/she can use any of these combinations:
 * <code>say --text="Hello world"</code>
 
 In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text Something</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
-<code>
-function(printLn, params){ <br />
-&nbsp;&nbsp;if(params && params.text){ <br />
-&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text); <br />
-&nbsp;&nbsp;} <br />
-}
-</code>
+<code>function(printLn, params){</code><br />
+<code>&nbsp;&nbsp;if(params && params.text){</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text);</code><br />
+<code>&nbsp;&nbsp;}</code><br />
+<code>}</code><br />
+
+# Custom theme
+If you want to customize ngConsole's default colors, you can specify a <code>customTheme</code> on your <code>options</code> object.
+* If you want to use a stock theme, just write its name, like this: <code>$scope.options.customTheme = "light"</code>
+* If you want to create a new theme, that's going to be available on your console, write this:
+
+<code>$scope.options.customTheme = {</code><br />
+<code>&nbsp;&nbsp;name: "my theme name",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;data:{</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "any-css-color",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "any-css-color",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "any-css-color",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontfamily: number,</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontsize: "string-font-name"</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;},</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;labels:{</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "The color name that's going to be displayed",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "The color name that's going to be displayed",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "The color name that's going to be displayed"</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;}</code><br />
+<code>&nbsp;&nbsp;}</code><br />
+<code>}</code><br />
