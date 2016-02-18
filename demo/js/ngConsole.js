@@ -1,6 +1,6 @@
 
 /* Some custom variables */
-var _dev = false;
+var _dev = true;
 var _version = "1.7.0";
 
 /* Create module */
@@ -21,63 +21,68 @@ var _ngc = angular.module('ngConsole', [])
 
         scope.init = function(){
 
-          /* If there is a custom height */
-          if(scope.options.customHeight && !scope.options.fullscreen){
-            document.querySelector(".console").style.height = scope.options.customHeight;
+          /* If there are custom options */
+          if(scope.options){
 
-            if(scope.options.fixed){
-              document.querySelector(".console").style.top = (scope.options.customHeight * (-1));
+            /* If there is a custom height */
+            if(scope.options.customHeight && !scope.options.fullscreen){
+              document.querySelector(".console").style.height = scope.options.customHeight;
+
+              if(scope.options.fixed){
+                document.querySelector(".console").style.top = (scope.options.customHeight * (-1));
+              }
+            }
+
+            /* If there is no prefix, set a default one */
+            if(!scope.options.customPrefix){
+              scope.options.customPrefix = "ngConsole";
+            }
+            scope.options.customPrefix;
+
+            /* Store custom commands */
+            if(scope.options.customCommands){
+              for(var x in scope.options.customCommands){
+                var action = scope.options.customCommands[x];
+                scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
+              }
+            }
+
+            /* Store and/or load custom Theme */
+            if(scope.options.customTheme){
+
+              /* If theme is an object */
+              if(typeof(scope.options.customTheme) == "object"){
+
+                /* Store it */
+                scope.themes.push(scope.options.customTheme);
+              }
+
+              /* If there is no saved data */
+              if(isConfigSaved() == false){
+
+                /* If custom theme is a string */
+                if(typeof(scope.options.customTheme) == "string" && scope.options.customTheme != ""){
+
+                  /* Applies that theme */
+                  scope.applyTheme(scope.options.customTheme);
+                }
+
+                /* If custom theme is an object */
+                else if(typeof(scope.options.customTheme) == "object"){
+
+                  /* Applies that theme */
+                  scope.applyTheme(scope.options.customTheme);
+                }
+              }
             }
           }
 
-          else if(!scope.options.customHeight){
+          /* If there are no custom options */
+          if(!scope.options || !scope.options.customHeight){
             document.querySelector(".console").style.height = 400;
 
-            if(scope.options.fixed){
+            if( scope.options && scope.options.fixed){
               document.querySelector(".console").style.top = -400;
-            }
-          }
-
-          /* If there is no prefix, set a default one */
-          if(!scope.options.customPrefix){
-            scope.options.customPrefix = "ngConsole";
-          }
-          scope.options.customPrefix;
-
-          /* Store custom commands */
-          if(scope.options.customCommands){
-            for(var x in scope.options.customCommands){
-              var action = scope.options.customCommands[x];
-              scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
-            }
-          }
-
-          /* Store and/or load custom Theme */
-          if(scope.options.customTheme){
-
-            /* If theme is an object */
-            if(typeof(scope.options.customTheme) == "object"){
-
-              /* Store it */
-              scope.themes.push(scope.options.customTheme);
-            }
-
-            /* If there is no saved data */
-            if(isConfigSaved() == false){
-
-              /* If custom theme is a string */
-              if(typeof(scope.options.customTheme) == "string" && scope.options.customTheme != ""){
-
-                /* Applies that theme */
-                scope.applyTheme(scope.options.customTheme);
-              }
-
-              /* If custom theme is an object */
-              else if(typeof(scope.options.customTheme) == "object"){
-
-                /* Applies that theme */
-                scope.applyTheme(scope.options.customTheme);
-              }
             }
           }
 

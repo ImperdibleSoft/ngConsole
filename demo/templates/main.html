@@ -20,40 +20,49 @@
       </div>
       <div class="mc-content">
         <code class="mc-code">
-          $scope.options = { <br />
-            &nbsp;&nbsp;open: {{ options.open }}, <br />
-            &nbsp;&nbsp;fixed: {{ options.fixed }}, <br />
-            &nbsp;&nbsp;fullscreen: {{ options.fullscreen }}, <br />
-            &nbsp;&nbsp;customHeight: {{ options.customHeight }}, <br />
-            &nbsp;&nbsp;customPrefix: "{{ options.customPrefix }}", <br />
-            &nbsp;&nbsp;customTheme: { <br />
-              <span style="line-height:99%;color:#666;">
-              &nbsp;&nbsp;&nbsp;&nbsp;name: "{{ options.customTheme.name }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;data: { <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.data.bg }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.data.color }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.data.boldColor }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.data.fontfamily }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontsize: {{ options.customTheme.data.fontsize }} <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;}, <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;labels: { <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.labels.bg }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.labels.color }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.labels.boldColor }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.labels.fontfamily }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontsize: {{ options.customTheme.labels.fontsize }} <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;}, <br />
+          // All this stuff is entirely OPTIONAL.<br />
+          $scope.options = {}; <br /><br />
+          // If true, console will be hidden, and will open by pressing º key. <br />
+          $scope.options.fixed = {{ options.fixed }}; <br /><br />
+          // If true and fixed=true, console will be displayed at fullscreen when open. <br />
+          $scope.options.fullscreen = {{ options.fullscreen }}; <br /><br />
+          // If true and fixed=true, console will start open. <br />
+          $scope.options.open = {{ options.open }}; <br /><br />
+          // This number will set a custom height for the console. <br />
+          $scope.options.customHeight = {{ options.customHeight }}; <br /><br />
+          // This string will replace the 'ngConsole>' prefix. <br />
+          $scope.options.customPrefix = {{ options.customPrefix }}; <br /><br />
+
+          // This will load a theme at startup. <br />
+          $scope.options.customTheme: { <br />
+            <span style="line-height:99%;color:#666;">
+            &nbsp;&nbsp;name: "{{ options.customTheme.name }}" <br />
+            &nbsp;&nbsp;data: { <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.data.bg }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.data.color }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.data.boldColor }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.data.fontfamily }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;fontsize: {{ options.customTheme.data.fontsize }} <br />
+            &nbsp;&nbsp;}, <br />
+            &nbsp;&nbsp;labels: { <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.labels.bg }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.labels.color }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.labels.boldColor }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.labels.fontfamily }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;fontsize: {{ options.customTheme.labels.fontsize }} <br />
               &nbsp;&nbsp;}, <br />
-            &nbsp;&nbsp;customCommands: [ <br />
+            };<br /><br />
+
+            // This will make these commands available for users. <br />
+            $scope.options.customCommands: [ <br />
               </span>
-              <span style="line-height:99%;color:#666;" ng-repeat="command in options.customCommands">&nbsp;&nbsp;&nbsp;&nbsp;{ <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: "{{ command.name }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;description: "{{ command.description }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;params: {{ command.params }} <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action: {{ command.action.toString() }} <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;},</span> <br />
-            &nbsp;&nbsp;] <br />
-          };
+              <span style="line-height:99%;color:#666;" ng-repeat="command in options.customCommands">&nbsp;&nbsp;{ <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;name: "{{ command.name }}" <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;description: "{{ command.description }}" <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;params: {{ command.params }} <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;action: {{ command.action.toString() }} <br />
+              &nbsp;&nbsp;},</span> <br />
+            ]; <br /><br />
         </code>
       </div>
     </div>
