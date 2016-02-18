@@ -424,7 +424,7 @@ var _ngc = angular.module('ngConsole', [])
                   printLn("Available themes:");
                   for(var x in scope.themes){
                     var theme = scope.themes[x];
-                    printLn("&nbsp;&nbsp;<b>" + theme.name + "</b> (background: "+ theme.labels.bg +", color: "+ theme.labels.color +", bold color: "+ theme.labels.boldColor +", font size: "+ theme.labels.fontsize +", font family: "+ theme.labels.fontfamily +")");
+                    printLn("&nbsp;&nbsp;<b>" + theme.name + "</b> (background: "+ theme.labels.bg +", color: "+ theme.labels.color +", bold color: "+ theme.labels.boldColor +")");
                   }
                 }
 
@@ -627,6 +627,7 @@ var _ngc = angular.module('ngConsole', [])
             }
           }
         }
+
 
         /* Utils */
         /* Save custom configuration */

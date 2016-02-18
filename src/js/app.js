@@ -59,18 +59,18 @@ app.controller('mainController', ['$scope', function($scope){
       }
     ],
     customTheme: {
-      name: "notepad++",
+      name: "custom",
       data: {
-        bg: "white",
-        color: "black",
-        boldColor: "blue",
+        bg: "rgba(0,9,76,0.8)",
+        color: "#ccc",
+        boldColor: "#fff",
         fontsize: 11,
         fontfamily: "monospace"
       },
       labels: {
-        bg: "White",
-        color: "Black",
-        boldColor: "Blue",
+        bg: "Dark blue",
+        color: "Light gray",
+        boldColor: "White",
         fontsize: "11px",
         fontfamily: "Monospace"
       },
