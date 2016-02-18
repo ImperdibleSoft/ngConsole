@@ -38,18 +38,16 @@
             <span style="line-height:99%;color:#666;">
             &nbsp;&nbsp;name: "{{ options.customTheme.name }}" <br />
             &nbsp;&nbsp;data: { <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.data.bg }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.data.color }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.data.boldColor }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.data.fontfamily }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.data.bg }}", <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.data.color }}", <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.data.boldColor }}", <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.data.fontfamily }}", <br />
               &nbsp;&nbsp;&nbsp;&nbsp;fontsize: {{ options.customTheme.data.fontsize }} <br />
             &nbsp;&nbsp;}, <br />
             &nbsp;&nbsp;labels: { <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.labels.bg }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.labels.color }}" <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;bg: "{{ options.customTheme.labels.bg }}", <br />
+              &nbsp;&nbsp;&nbsp;&nbsp;color: "{{ options.customTheme.labels.color }}", <br />
               &nbsp;&nbsp;&nbsp;&nbsp;boldColor: "{{ options.customTheme.labels.boldColor }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;fontfamily: "{{ options.customTheme.labels.fontfamily }}" <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;fontsize: {{ options.customTheme.labels.fontsize }} <br />
               &nbsp;&nbsp;}, <br />
             };<br /><br />
 
@@ -57,9 +55,9 @@
             $scope.options.customCommands: [ <br />
               </span>
               <span style="line-height:99%;color:#666;" ng-repeat="command in options.customCommands">&nbsp;&nbsp;{ <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;name: "{{ command.name }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;description: "{{ command.description }}" <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;params: {{ command.params }} <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;name: "{{ command.name }}", <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;description: "{{ command.description }}", <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;params: {{ command.params }}, <br />
                 &nbsp;&nbsp;&nbsp;&nbsp;action: {{ command.action.toString() }} <br />
               &nbsp;&nbsp;},</span> <br />
             ]; <br /><br />
