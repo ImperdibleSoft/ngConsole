@@ -1,6 +1,6 @@
 
 /* Some custom variables */
-var _dev = true;
+var _dev = false;
 var _version = "1.7.0";
 
 /* Create module */
