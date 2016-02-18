@@ -52,6 +52,36 @@ var _ngc = angular.module('ngConsole', [])
             }
           }
 
+          /* Store and/or load custom Theme */
+          if(scope.options.customTheme){
+
+            /* If theme is an object */
+            if(typeof(scope.options.customTheme) == "object"){
+
+              /* Store it */
+              scope.themes.push(scope.options.customTheme);
+            }
+
+            /* If there is no saved data */
+            if(isConfigSaved() == false){
+
+              /* If custom theme is a string */
+              if(typeof(scope.options.customTheme) == "string" && scope.options.customTheme != ""){
+
+                /* Applies that theme */
+                scope.applyTheme(scope.options.customTheme);
+              }
+
+              /* If custom theme is an object */
+              else if(typeof(scope.options.customTheme) == "object"){
+
+                /* Applies that theme */
+                scope.applyTheme(scope.options.customTheme);
+              }
+            }
+          }
+
+          /* Load saved configuration */
           scope.loadConfig();
 
           /* Show initial info */
@@ -407,20 +437,31 @@ var _ngc = angular.module('ngConsole', [])
               /* Restore ngConsole's state to its initial state */
               if(params.reset){
 
+                /* Close the console */
+                scope.executeCommand("console --close", true);
+
                 /* Remove styles */
                 document.querySelector("ng-console #custom-bg").innerHTML = "";
                 document.querySelector("ng-console #custom-color").innerHTML = "";
                 document.querySelector("ng-console #custom-boldcolor").innerHTML = "";
                 document.querySelector("ng-console #custom-fontfamily").innerHTML = "";
                 document.querySelector("ng-console #custom-fontsize").innerHTML = "";
+
+                /* Remove local storage */
                 if(localStorage){
                   localStorage.removeItem("ngc-bg");
                   localStorage.removeItem("ngc-color");
+                  localStorage.removeItem("ngc-boldcolor");
                   localStorage.removeItem("ngc-fontfamily");
                   localStorage.removeItem("ngc-fontsize");
                 }
 
-                scope.executeCommand("console --close", true);
+                /* If custom theme loaded */
+                if(scope.options.customTheme){
+
+                  /* Apply custom theme */
+                  scope.applyTheme(scope.options.customTheme);
+                }
               }
             }
           }
@@ -515,15 +556,15 @@ var _ngc = angular.module('ngConsole', [])
               bg: "rgba(39,43,51,1)",
               color: "#ABB2C1",
               boldColor: "#91BF71",
-              fontsize: 12,
-              fontfamily: "monospace"
+              fontsize: 11,
+              fontfamily: "Verdana"
             },
             labels: {
               bg: "dark gray",
               color: "light gray",
               boldColor: "green",
-              fontsize: "12px",
-              fontfamily: "Monospace"
+              fontsize: "11px",
+              fontfamily: "Verdana"
             }
           },
           {
@@ -532,18 +573,20 @@ var _ngc = angular.module('ngConsole', [])
               bg: "rgba(39,40,34,1)",
               color: "#FFFFE1",
               boldColor: "#54D2EF",
-              fontsize: 12,
-              fontfamily: "monospace"
+              fontsize: 11,
+              fontfamily: "Verdana"
             },
             labels: {
               bg: "dark brown",
               color: "vanilla",
               boldColor: "light blue",
-              fontsize: "12px",
-              fontfamily: "Monospace"
+              fontsize: "11px",
+              fontfamily: "Verdana"
             }
           }
         ];
+
+        /* Apply a theme */
         scope.applyTheme = function(theme){
 
           /* Apply a theme by name */
@@ -635,6 +678,19 @@ var _ngc = angular.module('ngConsole', [])
             }
           }
         };
+
+        /* Return true | false if there is config saved */
+        function isConfigSaved(){
+          var saved = false;
+
+          if(localStorage){
+            if((localStorage.getItem("ngc-bg") && localStorage.getItem("ngc-bg") != "") || (localStorage.getItem("ngc-boldcolor") && localStorage.getItem("ngc-boldcolor") != "") || (localStorage.getItem("ngc-color") && localStorage.getItem("ngc-color") != "") || (localStorage.getItem("ngc-fontsize") && localStorage.getItem("ngc-fontsize") != "") || (localStorage.getItem("ngc-fontfamily") && localStorage.getItem("ngc-fontfamily") != "")){
+              saved = true;
+            }
+          }
+
+          return saved;
+        }
 
         /* Scroll to new Line position */
         scope.scrollBottom = function(){

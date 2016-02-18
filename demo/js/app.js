@@ -57,6 +57,23 @@ app.controller('mainController', ['$scope', function($scope){
           }
         }
       }
-    ]
+    ],
+    customTheme: {
+      name: "notepad++",
+      data: {
+        bg: "white",
+        color: "black",
+        boldColor: "blue",
+        fontsize: 11,
+        fontfamily: "monospace"
+      },
+      labels: {
+        bg: "White",
+        color: "Black",
+        boldColor: "Blue",
+        fontsize: "11px",
+        fontfamily: "Monospace"
+      },
+    }
   };
 }]);
