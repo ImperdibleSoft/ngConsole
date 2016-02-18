@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var _dev = false;
-var _version = "1.6.7";
+var _version = "1.6.8";
 
 /* Create module */
 var _ngc = angular.module('ngConsole', [])
@@ -13,7 +13,7 @@ var _ngc = angular.module('ngConsole', [])
     return {
       restrict: 'AE',
       transclude: true,
-      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;z-index:999999999;} .console,.console *{left:0;box-sizing:border-box;margin:0;cursor:default;} .console *::selection{color:black;background:#fff;}.console *::-moz-selection{color:black;background:#fff;}      .console{position:relative;display:inline-block;float:left;width:100%;padding:10px;top:0;background:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:150%;list-style:none;text-align:left}.console b{color:#fff;}.console input::-webkit-calendar-picker-indicator{display:none}.console a{cursor:pointer;}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .command-new-line .prefix,.console .command-new-line input[type=text],.console .command-new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .command-new-line{position: relative;display: block;float: left;width: 100%;}.console .command-new-line .prefix{width:auto}.console .command-new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><style id="custom-bg"></style><style id="custom-color"></style><style id="custom-fontsize"></style><style id="custom-fontfamily"></style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': options.open, \'fixed\': options.fixed, \'fullscreen\': options.fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="command-new-line"><span class="prefix">{{ options.customPrefix }}></span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
+      template: '<style>ng-console{position:relative;display:inline-block;width:100%;height:auto;padding:0px;margin:0px;z-index:999999999;} .console,.console *{left:0;box-sizing:border-box;margin:0;cursor:default;} .console *::selection{color:black;background:#fff;}.console *::-moz-selection{color:black;background:#fff;}      .console{position:relative;display:inline-block;float:left;width:100%;padding:10px;top:0;background:rgba(0,0,0,1);border:0;outline:0;overflow-x:hidden;overflow-y:scroll;transition:all .3s;z-index:50}.console.fixed{position:fixed;display:block;height:50%;top:-50%;background:rgba(0,0,0,0.8);}.console.fixed.fullscreen{height:100%!important;top:-100%!important}.console.fixed.fullscreen.open,.console.fixed.open,.console.open{top:0!important}.console *{padding:0;top:0;color:#ccc;font-family:monospace;font-size:11px;line-height:150%;list-style:none;text-align:left}.console b{color:#fff;}.console input::-webkit-calendar-picker-indicator{display:none}.console a{cursor:pointer;}.console .command-list .prefix,.console .command-list input[type=text],.console .command-list p,.console .command-new-line .prefix,.console .command-new-line input[type=text],.console .command-new-line p{position:relative;display:block;float:left;width:100%;height:auto;padding:0;margin:0;bottom:0;appearance:none;-moz-appearance:none;-webkit-appearance:none;background-color:transparent;border:none;outline:0}.console .command-list, .console .command-new-line{position: relative;display: block;float: left;width: 100%;}.console .command-new-line .prefix{width:auto}.console .command-new-line input[type=text]{width:100%;max-width:calc(100% - 130px);padding:0 5px}</style><style id="custom-bg"></style><style id="custom-color"></style><style id="custom-boldcolor"></style><style id="custom-fontsize"></style><style id="custom-fontfamily"></style><form name="console" role="form" novalidate class="console" ng-class="{\'open\': options.open, \'fixed\': options.fixed, \'fullscreen\': options.fullscreen}" ng-submit="executeCommand()"><!-- Command list --><div class="command-list"></div><div class="command-new-line"><span class="prefix">{{ options.customPrefix }}></span><input type="text" name="command" ng-model="command" tab-index="1" autofocus autocomplete="off" /><datalist id="commands"><option ng-repeat="command in commands" value="{{ command.name }}"></datalist></div></form>',
       scope:{
         options: "=options"
       },
@@ -278,6 +278,10 @@ var _ngc = angular.module('ngConsole', [])
               description: "Change the ngConsole's background."
             },
             {
+              name: "boldcolor",
+              description: "Change the ngConsole's font color, for bold text."
+            },
+            {
               name: "close",
               description: "Close the console and clear commands history."
             },
@@ -312,10 +316,19 @@ var _ngc = angular.module('ngConsole', [])
               /* Change the ngConsole's background */
               if(params.bg){
 
-                /* Build new styles */
+                /* Build new styles. */
                 var temp = ".console{background:"+ params.bg +"!important;}.console *::selection{color:"+ params.bg +";}.console *::-moz-selection{color:"+ params.bg +";}";
                 document.querySelector("ng-console #custom-bg").innerHTML = temp;
                 scope.saveConfig("ngc-bg", params.bg);
+              }
+
+              /* Change the ngConsole's font color, for bold text. */
+              if(params.boldcolor){
+
+                /* Build new styles */
+                var temp = ".console, .console b{color:"+ params.boldcolor +"!important;}";
+                document.querySelector("ng-console #custom-boldcolor").innerHTML = temp;
+                scope.saveConfig("ngc-boldcolor", params.boldcolor);
               }
 
               /* Close the console and clear commands history. */
@@ -381,7 +394,7 @@ var _ngc = angular.module('ngConsole', [])
                   printLn("Available themes:");
                   for(var x in scope.themes){
                     var theme = scope.themes[x];
-                    printLn("&nbsp;&nbsp;<b>" + theme.name + "</b> (background: "+ theme.background +", color: "+ theme.color +", font size: "+ theme.fontsize +", font family: "+ theme.fontfamily +")");
+                    printLn("&nbsp;&nbsp;<b>" + theme.name + "</b> (background: "+ theme.labels.bg +", color: "+ theme.labels.color +", bold color: "+ theme.labels.boldColor +", font size: "+ theme.labels.fontsize +", font family: "+ theme.labels.fontfamily +")");
                   }
                 }
 
@@ -397,6 +410,7 @@ var _ngc = angular.module('ngConsole', [])
                 /* Remove styles */
                 document.querySelector("ng-console #custom-bg").innerHTML = "";
                 document.querySelector("ng-console #custom-color").innerHTML = "";
+                document.querySelector("ng-console #custom-boldcolor").innerHTML = "";
                 document.querySelector("ng-console #custom-fontfamily").innerHTML = "";
                 document.querySelector("ng-console #custom-fontsize").innerHTML = "";
                 if(localStorage){
@@ -463,19 +477,71 @@ var _ngc = angular.module('ngConsole', [])
         scope.themes = [
           {
             name: 'default',
-            bg: "rgba(0,0,0,0.8)",
-            background: "black",
-            color: "white",
-            fontsize: 11,
-            fontfamily: "monospace"
+            data: {
+              bg: "rgba(0,0,0,1)",
+              color: "#ccc",
+              boldColor: "#fff",
+              fontsize: 11,
+              fontfamily: "monospace"
+            },
+            labels: {
+              bg: "black",
+              color: "light gray",
+              boldColor: "white",
+              fontsize: "11px",
+              fontfamily: "Monospace"
+            }
           },
           {
             name: 'light',
-            bg: "rgba(255,255,255,0.8)",
-            background: "white",
-            color: "black",
-            fontsize: 11,
-            fontfamily: "monospace"
+            data: {
+              bg: "rgba(255,255,255,0.8)",
+              color: "#333",
+              boldColor: "#000",
+              fontsize: 11,
+              fontfamily: "monospace"
+            },
+            labels: {
+              bg: "white",
+              color: "dark gray",
+              boldColor: "black",
+              fontsize: "11px",
+              fontfamily: "Monospace"
+            }
+          },
+          {
+            name: 'atom',
+            data: {
+              bg: "rgba(39,43,51,1)",
+              color: "#ABB2C1",
+              boldColor: "#91BF71",
+              fontsize: 12,
+              fontfamily: "monospace"
+            },
+            labels: {
+              bg: "dark gray",
+              color: "light gray",
+              boldColor: "green",
+              fontsize: "12px",
+              fontfamily: "Monospace"
+            }
+          },
+          {
+            name: 'sublime',
+            data: {
+              bg: "rgba(39,40,34,1)",
+              color: "#FFFFE1",
+              boldColor: "#54D2EF",
+              fontsize: 12,
+              fontfamily: "monospace"
+            },
+            labels: {
+              bg: "dark brown",
+              color: "vanilla",
+              boldColor: "light blue",
+              fontsize: "12px",
+              fontfamily: "Monospace"
+            }
           }
         ];
         scope.applyTheme = function(theme){
@@ -497,20 +563,24 @@ var _ngc = angular.module('ngConsole', [])
 
           /* Apply a custom theme */
           else{
-            if(theme.bg){
-              scope.executeCommand("console --bg "+ theme.bg, true);
+            if(theme.data.bg){
+              scope.executeCommand("console --bg "+ theme.data.bg, true);
             }
 
-            if(theme.color){
-              scope.executeCommand("console --color "+ theme.color, true);
+            if(theme.data.boldColor){
+              scope.executeCommand("console --boldcolor "+ theme.data.boldColor, true);
             }
 
-            if(theme.fontsize){
-              scope.executeCommand("console --fontsize "+ theme.fontsize, true);
+            if(theme.data.color){
+              scope.executeCommand("console --color "+ theme.data.color, true);
             }
 
-            if(theme.fontfamily){
-              scope.executeCommand("console --fontfamily "+ theme.fontfamily, true);
+            if(theme.data.fontsize){
+              scope.executeCommand("console --fontsize "+ theme.data.fontsize, true);
+            }
+
+            if(theme.data.fontfamily){
+              scope.executeCommand("console --fontfamily "+ theme.data.fontfamily, true);
             }
           }
         }
@@ -534,6 +604,13 @@ var _ngc = angular.module('ngConsole', [])
 
               /* Apply saved style */
               scope.executeCommand("console --bg "+ localStorage.getItem("ngc-bg"), true);
+            }
+
+            /* Change the ngConsole's bold color */
+            if(localStorage.getItem("ngc-boldcolor") && localStorage.getItem("ngc-boldcolor") != ""){
+
+              /* Apply saved style */
+              scope.executeCommand("console --boldcolor "+ localStorage.getItem("ngc-boldcolor"), true);
             }
 
             /* Change the ngConsole's font color */
