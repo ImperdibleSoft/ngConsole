@@ -70,9 +70,7 @@ app.controller('mainController', ['$scope', function($scope){
       labels: {
         bg: "Dark blue",
         color: "Light gray",
-        boldColor: "White",
-        fontsize: "11px",
-        fontfamily: "Monospace"
+        boldColor: "White"
       },
     }
   };

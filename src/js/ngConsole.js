@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var _dev = false;
-var _version = "1.6.8";
+var _version = "1.7.0";
 
 /* Create module */
 var _ngc = angular.module('ngConsole', [])
