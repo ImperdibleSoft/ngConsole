@@ -1,0 +1,108 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec { raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'C:\\Dev\\ngConsole',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\Admin\AppData\Roaming\npm-cache\ng-console\1.7.0\package.tgz not in flight; packing
+9 verbose tar pack [ 'C:\\Users\\Admin\\AppData\\Roaming\\npm-cache\\ng-console\\1.7.0\\package.tgz',
+9 verbose tar pack   'C:\\Dev\\ngConsole' ]
+10 verbose tarball C:\Users\Admin\AppData\Roaming\npm-cache\ng-console\1.7.0\package.tgz
+11 verbose folder C:\Dev\ngConsole
+12 info prepublish ng-console@1.7.0
+13 verbose addLocalTarball adding from inside cache C:\Users\Admin\AppData\Roaming\npm-cache\ng-console\1.7.0\package.tgz
+14 silly cache afterAdd ng-console@1.7.0
+15 verbose afterAdd C:\Users\Admin\AppData\Roaming\npm-cache\ng-console\1.7.0\package\package.json not in flight; writing
+16 verbose afterAdd C:\Users\Admin\AppData\Roaming\npm-cache\ng-console\1.7.0\package\package.json written
+17 silly publish { name: 'ng-console',
+17 silly publish   version: '1.7.0',
+17 silly publish   description: 'Small directive for angular, to implement a console that\'s able to execute commands.',
+17 silly publish   main: 'index.js',
+17 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+17 silly publish   repository:
+17 silly publish    { type: 'git',
+17 silly publish      url: 'git+https://github.com/ImperdibleSoft/ngConsole.git' },
+17 silly publish   keywords: [ 'angularJS', 'angular', 'javascript', 'directive', 'console' ],
+17 silly publish   author: { name: 'ImperdibleSoft' },
+17 silly publish   license: 'ISC',
+17 silly publish   bugs: { url: 'https://github.com/ImperdibleSoft/ngConsole/issues' },
+17 silly publish   homepage: 'https://github.com/ImperdibleSoft/ngConsole#readme',
+17 silly publish   dependencies: {},
+17 silly publish   devDependencies:
+17 silly publish    { del: '^2.2.0',
+17 silly publish      gulp: '^3.9.1',
+17 silly publish      'gulp-clean': '^0.3.1',
+17 silly publish      'gulp-compass': '^2.1.0',
+17 silly publish      'gulp-concat': '^2.6.0',
+17 silly publish      'gulp-if': '^2.0.0',
+17 silly publish      'gulp-minify-css': '^1.2.3',
+17 silly publish      'gulp-rename': '^1.2.2',
+17 silly publish      'gulp-sequence': '^0.4.4',
+17 silly publish      'gulp-uglify': '^1.5.2',
+17 silly publish      'gulp-webserver': '^0.9.1',
+17 silly publish      yargs: '^3.32.0' },
+17 silly publish   readme: '# ngConsole\r\nSmall directive for angular, to implement a console that\'s able to execute commands. You can see a demo <a href="http://imperdiblesoft.github.io/ngConsole/demo/" target="_blank">here</a>.<br />\r\n\r\nWith this directive, developers can avoid to design and create a user interface for small tasks like cleaning server cache, restart some backend tasks and so on. Just create the logic, and ngConsole will allow you to execute all these actions from the same place.\r\n\r\n<h2>Self documented commands</h2>\r\nThanks to the format we are using, the default command <code>help</code> is able to show a small documentation for all commands (including custom comands) and their params. Also error messages are displayed for non-recognized commands or params.\r\n\r\n# Installation\r\nTo install ngConsole on your project, follow these steps: <br />\r\n1) Make a <code>npm install ng-console</code>. <br />\r\n2) Copy the file <code>node_modules/ng-console/build/ngConsole.js</code> to your project\'s folder. <br />\r\n3) Declare ngConsole as a dependency for your module <code>angular.module(\'myApp\' [\'ngConsole\'])</code> <br />\r\n4) Save it. You are done!\r\n\r\n# Use\r\nNow, you just have to write <code>&lt;ng-console&gt;&lt;/ng-console&gt;</code> on your code, and that\'s it,\r\nyou already have a console installed on your Angular website.\r\n\r\nYou can use different attributes to customize it:\r\n* *open*: Open by default (<code>boolean</code>)\r\n* *fixed*: Embeded in your HTML, or fixed and hidden (<code>boolean</code>)\r\n  * If it\'s fixed, you should press º to open it.\r\n* *fullsize*: When fixed, filling the entire screen (<code>boolean</code>)\r\n* *custom-height*: Set a custom height, this will be ignored if fullsize is true (<code>number</code>).\r\n* *custom-prefix*: The prefix displayed (<code>string</code>)\r\n* *custom-commands*: An array with commands that you wanna add to the console. (<code>boolean</code>)\r\n\r\n# Custom commands\r\nCustom commands must have particular properties to make them work. Each command must have:\r\n* name: The keyword used to execute the command (<code>string</code>)\r\n* description: A short description to show with <code>help</code> command (<code>string</code>)\r\n* params: A list of parameters that can be used with this command (Object: <code>{name: "string", description: "string"}</code>)\r\n* action: The function that\'s gonna be executed (<code>function(printLn, params){ whatever(); }</code>).\r\n\r\n<h2>Parameters</h2>\r\nWhen declaring your action function, as described below, you have to use these params:\r\n* *printLn*: A function that allows you to print on the console.\r\n* *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).\r\n\r\nIf user wants to use parameters, he/she can use any of these combinations:\r\n* <code>say --text Hello world</code>\r\n* <code>say --text "Hello world"</code>\r\n* <code>say --text=Hello world</code>\r\n* <code>say --text="Hello world"</code>\r\n\r\nIn our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text Something</code>, it\'s going to prompt you "something". And we are able to get it by doing this: <br /><br />\r\n<code>function(printLn, params){</code><br />\r\n<code>&nbsp;&nbsp;if(params && params.text){</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text);</code><br />\r\n<code>&nbsp;&nbsp;}</code><br />\r\n<code>}</code><br />\r\n\r\n# Custom theme\r\nIf you want to customize ngConsole\'s default colors, you can specify a <code>customTheme</code> on your <code>options</code> object.\r\n* If you want to use a stock theme, just write its name, like this: <code>$scope.options.customTheme = "light"</code>\r\n* If you want to create a new theme, that\'s going to be available on your console, write this:\r\n\r\n<code>$scope.options.customTheme = {</code><br />\r\n<code>&nbsp;&nbsp;name: "my theme name",</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;data:{</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "any-css-color",</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "any-css-color",</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "any-css-color",</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontfamily: number,</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontsize: "string-font-name"</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;},</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;labels:{</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "The color name that\'s going to be displayed",</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "The color name that\'s going to be displayed",</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "The color name that\'s going to be displayed"</code><br />\r\n<code>&nbsp;&nbsp;&nbsp;&nbsp;}</code><br />\r\n<code>&nbsp;&nbsp;}</code><br />\r\n<code>}</code><br />\r\n',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: '0709e05a18992752c9e2f1ddfdb3ff17a492417e',
+17 silly publish   _id: 'ng-console@1.7.0',
+17 silly publish   _shasum: 'fe4ae3a7c7665fafc0a981894d151004df8025d8',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name ng-console
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/ng-console
+23 verbose publish registryBase https://registry.npmjs.org/
+24 silly publish uploading C:\Users\Admin\AppData\Roaming\npm-cache\ng-console\1.7.0\package.tgz
+25 verbose request uri https://registry.npmjs.org/ng-console
+26 verbose request sending authorization for write operation
+27 info attempt registry request try #1 at 13:13:47
+28 verbose request using bearer token for auth
+29 verbose request id c616eab517d2d6e8
+30 http request PUT https://registry.npmjs.org/ng-console
+31 http 403 https://registry.npmjs.org/ng-console
+32 verbose headers { 'content-type': 'application/json',
+32 verbose headers   'cache-control': 'max-age=300',
+32 verbose headers   'content-length': '95',
+32 verbose headers   'accept-ranges': 'bytes',
+32 verbose headers   date: 'Thu, 18 Feb 2016 16:13:50 GMT',
+32 verbose headers   via: '1.1 varnish',
+32 verbose headers   connection: 'keep-alive',
+32 verbose headers   'x-served-by': 'cache-jfk1036-JFK',
+32 verbose headers   'x-cache': 'MISS',
+32 verbose headers   'x-cache-hits': '0',
+32 verbose headers   'x-timer': 'S1455812028.710913,VS0,VE1968' }
+33 verbose request invalidating C:\Users\Admin\AppData\Roaming\npm-cache\registry.npmjs.org\ng-console on PUT
+34 error publish Failed PUT 403
+35 verbose stack Error: "You cannot publish over the previously published version 1.7.0." : ng-console
+35 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:247:14)
+35 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:170:14)
+35 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:354:22)
+35 verbose stack     at Request.emit (events.js:110:17)
+35 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1207:14)
+35 verbose stack     at Request.emit (events.js:129:20)
+35 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1153:12)
+35 verbose stack     at IncomingMessage.emit (events.js:129:20)
+35 verbose stack     at _stream_readable.js:908:16
+35 verbose stack     at process._tickCallback (node.js:355:11)
+36 verbose statusCode 403
+37 verbose pkgid ng-console
+38 verbose cwd C:\Dev\ngConsole
+39 error Windows_NT 6.3.9600
+40 error argv "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+41 error node v0.12.7
+42 error npm  v2.11.3
+43 error code E403
+44 error "You cannot publish over the previously published version 1.7.0." : ng-console
+45 error If you need help, you may report this error at:
+45 error     <https://github.com/npm/npm/issues>
+46 verbose exit [ 1, true ]
