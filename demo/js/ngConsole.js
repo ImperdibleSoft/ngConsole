@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var _dev = false;
-var _version = "1.7.2";
+var _version = "1.7.3";
 
 /* Create module */
 var _ngc = angular.module('ngConsole', [])
@@ -21,8 +21,13 @@ var _ngc = angular.module('ngConsole', [])
 
         scope.init = function(){
 
+          /* If no scope options */
+          if(!scope.options){
+            scope.options = {};
+          }
+
           /* If there is a custom height */
-          if(scope.options && scope.options.customHeight && !scope.options.fullscreen){
+          if(scope.options.customHeight && !scope.options.fullscreen){
             document.querySelector(".console").style.height = scope.options.customHeight;
 
             if(scope.options.fixed){
@@ -36,7 +41,7 @@ var _ngc = angular.module('ngConsole', [])
           }
 
           /* Store custom commands */
-          if(scope.options && scope.options.customCommands){
+          if(scope.options.customCommands){
             for(var x in scope.options.customCommands){
               var action = scope.options.customCommands[x];
               scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
@@ -44,7 +49,7 @@ var _ngc = angular.module('ngConsole', [])
           }
 
           /* Store and/or load custom Theme */
-          if(scope.options && scope.options.customTheme){
+          if(scope.options.customTheme){
 
             /* If theme is an object */
             if(typeof(scope.options.customTheme) == "object"){
