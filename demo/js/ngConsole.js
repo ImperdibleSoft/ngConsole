@@ -1,7 +1,7 @@
 
 /* Some custom variables */
 var _dev = false;
-var _version = "1.7.1";
+var _version = "1.7.2";
 
 /* Create module */
 var _ngc = angular.module('ngConsole', [])
@@ -21,67 +21,62 @@ var _ngc = angular.module('ngConsole', [])
 
         scope.init = function(){
 
-          /* If there are custom options */
-          if(scope.options){
+          /* If there is a custom height */
+          if(scope.options && scope.options.customHeight && !scope.options.fullscreen){
+            document.querySelector(".console").style.height = scope.options.customHeight;
 
-            /* If there is a custom height */
-            if(scope.options.customHeight && !scope.options.fullscreen){
-              document.querySelector(".console").style.height = scope.options.customHeight;
+            if(scope.options.fixed){
+              document.querySelector(".console").style.top = (scope.options.customHeight * (-1));
+            }
+          }
 
-              if(scope.options.fixed){
-                document.querySelector(".console").style.top = (scope.options.customHeight * (-1));
-              }
+          /* If there is no prefix, set a default one */
+          if(!scope.options.customPrefix){
+            scope.options.customPrefix = "ngConsole";
+          }
+
+          /* Store custom commands */
+          if(scope.options && scope.options.customCommands){
+            for(var x in scope.options.customCommands){
+              var action = scope.options.customCommands[x];
+              scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
+            }
+          }
+
+          /* Store and/or load custom Theme */
+          if(scope.options && scope.options.customTheme){
+
+            /* If theme is an object */
+            if(typeof(scope.options.customTheme) == "object"){
+
+              /* Store it */
+              scope.themes.push(scope.options.customTheme);
             }
 
-            /* If there is no prefix, set a default one */
-            if(!scope.options.customPrefix){
-              scope.options.customPrefix = "ngConsole";
-            }
-            scope.options.customPrefix;
+            /* If there is no saved data */
+            if(isConfigSaved() == false){
 
-            /* Store custom commands */
-            if(scope.options.customCommands){
-              for(var x in scope.options.customCommands){
-                var action = scope.options.customCommands[x];
-                scope.commands[action.name] = new Command(action.name, action.description, action.params, action.action);
-              }
-            }
+              /* If custom theme is a string */
+              if(typeof(scope.options.customTheme) == "string" && scope.options.customTheme != ""){
 
-            /* Store and/or load custom Theme */
-            if(scope.options.customTheme){
-
-              /* If theme is an object */
-              if(typeof(scope.options.customTheme) == "object"){
-
-                /* Store it */
-                scope.themes.push(scope.options.customTheme);
+                /* Applies that theme */
+                scope.applyTheme(scope.options.customTheme);
               }
 
-              /* If there is no saved data */
-              if(isConfigSaved() == false){
+              /* If custom theme is an object */
+              else if(typeof(scope.options.customTheme) == "object"){
 
-                /* If custom theme is a string */
-                if(typeof(scope.options.customTheme) == "string" && scope.options.customTheme != ""){
-
-                  /* Applies that theme */
-                  scope.applyTheme(scope.options.customTheme);
-                }
-
-                /* If custom theme is an object */
-                else if(typeof(scope.options.customTheme) == "object"){
-
-                  /* Applies that theme */
-                  scope.applyTheme(scope.options.customTheme);
-                }
+                /* Applies that theme */
+                scope.applyTheme(scope.options.customTheme);
               }
             }
           }
 
           /* If there are no custom options */
-          if(!scope.options || !scope.options.customHeight){
+          if(!scope.options.customHeight){
             document.querySelector(".console").style.height = 400;
 
-            if( scope.options && scope.options.fixed){
+            if(scope.options && scope.options.fixed){
               document.querySelector(".console").style.top = -400;
             }
           }
