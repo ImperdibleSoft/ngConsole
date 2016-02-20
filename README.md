@@ -10,7 +10,7 @@ Thanks to the format we are using, the default command <code>help</code> is able
 To install ngConsole on your project, follow these steps: <br />
 1) Make a <code>npm install ng-console</code>. <br />
 2) Copy the file <code>node_modules/ng-console/build/ngConsole.js</code> to your project's folder. <br />
-3) Open your project's ngConsole.js and replace <code>app</code> with <code>yourAppName</code> <br />
+3) Declare ngConsole as a dependency for your module <code>angular.module('myApp' ['ngConsole'])</code> <br />
 4) Save it. You are done!
 
 # Use
@@ -33,16 +33,42 @@ Custom commands must have particular properties to make them work. Each command 
 * params: A list of parameters that can be used with this command (Object: <code>{name: "string", description: "string"}</code>)
 * action: The function that's gonna be executed (<code>function(printLn, params){ whatever(); }</code>).
 
-# Params
+<h2>Parameters</h2>
 When declaring your action function, as described below, you have to use these params:
 * *printLn*: A function that allows you to print on the console.
 * *params*: If the user introduced parameters when executing the command, they will be returned inhere (Object <code>{paramName: paramValue}</code>).
 
-In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text="something"</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
-<code>
-function(printLn, params){ <br />
-&nbsp;&nbsp;if(params && params.text){ <br />
-&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text); <br />
-&nbsp;&nbsp;} <br />
-}
-</code>
+If user wants to use parameters, he/she can use any of these combinations:
+* <code>say --text Hello world</code>
+* <code>say --text "Hello world"</code>
+* <code>say --text=Hello world</code>
+* <code>say --text="Hello world"</code>
+
+In our live example, our custom command <code>say</code> accepts params, so if you execute <code>say --text Something</code>, it's going to prompt you "something". And we are able to get it by doing this: <br /><br />
+<code>function(printLn, params){</code><br />
+<code>&nbsp;&nbsp;if(params && params.text){</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;printLn(params.text);</code><br />
+<code>&nbsp;&nbsp;}</code><br />
+<code>}</code><br />
+
+# Custom theme
+If you want to customize ngConsole's default colors, you can specify a <code>customTheme</code> on your <code>options</code> object.
+* If you want to use a stock theme, just write its name, like this: <code>$scope.options.customTheme = "light"</code>
+* If you want to create a new theme, that's going to be available on your console, write this:
+
+<code>$scope.options.customTheme = {</code><br />
+<code>&nbsp;&nbsp;name: "my theme name",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;data:{</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "any-css-color",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "any-css-color",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "any-css-color",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontfamily: number,</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontsize: "string-font-name"</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;},</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;labels:{</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bg: "The color name that's going to be displayed",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: "The color name that's going to be displayed",</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boldColor: "The color name that's going to be displayed"</code><br />
+<code>&nbsp;&nbsp;&nbsp;&nbsp;}</code><br />
+<code>&nbsp;&nbsp;}</code><br />
+<code>}</code><br />
