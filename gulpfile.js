@@ -137,6 +137,7 @@ gulp.task('webserver', ['watcher'], function() {
   return gulp.src(prodEnv)
     .pipe(webserver({
       host: 'localhost',
+      port: '9000',
       livereload: true,
       open: true
     }));
