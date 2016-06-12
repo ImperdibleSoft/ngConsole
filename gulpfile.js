@@ -66,7 +66,7 @@ gulp.task('js', function(){
 // Parse all ./src files into ./dist folder
 gulp.task('parse', gulpSequence(['html', 'js']));
 
-// Concat all CSS, Libraries and JS files, and minify them if neccesary
+// Concat all CSS, Libraries and JS files, and minify them if necessary
 gulp.task('combineJS', function(){
 
   /* If combine parameter is sent */
